@@ -1,0 +1,4 @@
+Introduces a variety of random effects that can occur during gameplay and
+includes Twitch integration for viewer voting.
+
+This description will show up on the steam page, check out https://steamcommunity.com/comment/Guide/formattinghelp.

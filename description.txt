@@ -1,0 +1,2 @@
+Introduces a variety of random effects that can occur during gameplay and
+includes Twitch integration for viewer voting.

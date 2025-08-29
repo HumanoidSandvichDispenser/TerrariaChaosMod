@@ -1,0 +1,87 @@
+Mods: {
+	TerrariaChaosMod: {
+		Buffs: {
+			FakeLagBuff: {
+				DisplayName: Fake Lag
+				Description: You feel disconnected from reality.
+			}
+
+			BoostBrakingBuff: {
+				DisplayName: Boost Braking
+				Description: Deceleration = Acceleration LULW
+			}
+
+			EatDaPooPooBuff: {
+				DisplayName: Eat Da Poo Poo
+				Description: Your inventory is full of poo poo.
+			}
+
+			KillPlayerBuff: {
+				DisplayName: Kill Player
+				Description: You are doomed.
+			}
+
+			SpaceProgramBuff: {
+				DisplayName: Space Program
+				Description: To the moon!
+			}
+
+			ReforgeCurrentItemBuff: {
+				DisplayName: Reforge Current Item
+				Description: Your current item has been reforged.
+			}
+
+			ExplodePlayerBuff: {
+				DisplayName: Explode Player Buff
+				Description: Mods.TerrariaChaosMod.Buffs.ExplodePlayerBuff.Description
+			}
+
+			AllCritBuff: {
+				DisplayName: 100% Crits
+				Description: All your attacks will be critical hits.
+			}
+
+			GiveZenithBuff: {
+				DisplayName: Give Zenith
+				Description: You have been granted the power of the Zenith.
+			}
+
+			LargeItemsBuff: {
+				DisplayName: Large Items
+				Description: Your items have grown in size.
+			}
+
+			SidewaysGravityBuff: {
+				DisplayName: Sideways Gravity
+				Description: Gravity is now sideways!
+			}
+
+			RagsToRichesBuff: {
+				DisplayName: Rags To Riches
+				Description: Your copper coins have turned to platinum!
+			}
+
+			HelenKellerBuff: {
+				DisplayName: Helen Keller Playthrough
+				Description: I noticed your title says "aouerugh fugieeufg"
+			}
+
+			NoMountBuff: {
+				DisplayName: No Mount
+				Description: You are banned from using mounts.
+			}
+
+			RecallBuff: {
+				DisplayName: Recall
+				Description: monkaOMEGA RICK HALL
+			}
+
+			BlindPlaythroughBuff: {
+				DisplayName: Blind Playthrough
+				Description: I noticed your title says "Blind playthrough".
+			}
+		}
+
+		DeathReasons.KillPlayerBuff: "{0} was unlucky."
+	}
+}

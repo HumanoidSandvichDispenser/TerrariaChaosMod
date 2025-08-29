@@ -1,0 +1,3 @@
+displayName = Chaos Mod
+author = HumanoidSandvichDispenser
+version = 0.1
