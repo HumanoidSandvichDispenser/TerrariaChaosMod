@@ -1,11 +1,10 @@
-using Terraria;
-
 namespace TerrariaChaosMod.Content.Buffs;
 
-public class BlindPlaythroughBuff : BaseChaosBuff
+public class NoIFramesBuff : EffectBuff
 {
     public override void Update(Terraria.Player player, ref int buffIndex)
     {
-        Main.BlackFadeIn = 255;
+        player.immune = false;
+        player.immuneTime = 0;
     }
 }

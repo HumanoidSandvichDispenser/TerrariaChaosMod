@@ -1,18 +1,11 @@
 using Terraria;
-using Terraria.ModLoader;
-using Terraria.GameContent.UI;
 
-namespace TerrariaChaosMod.Content.Buffs;
+namespace TerrariaChaosMod.Content.Effects.ItemEffects;
 
-public class ReforgeCurrentItemBuff : BaseChaosBuff
+public class ReforgeEffect : Effect
 {
-    public override void Update(Player player, ref int buffIndex)
+    public override void ApplyEffect(Player player)
     {
-        if (player.buffTime[buffIndex] != BaseChaosBuff.ONE_TIME_APPLY_TICK)
-        {
-            return;
-        }
-
         // reforge current item if applicable, otherwise pick best item
         Item item = player.HeldItem;
         if (item is null || item.IsAir)
@@ -32,5 +25,7 @@ public class ReforgeCurrentItemBuff : BaseChaosBuff
                 item.stack,
                 noStack: true);
         }
+
+        base.ApplyEffect(player);
     }
 }

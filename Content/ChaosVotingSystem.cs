@@ -35,8 +35,8 @@ public class ChaosVotingSystem : ModSystem
 
     public override void OnModLoad()
     {
-        InitializeBuffs();
-        SetupVoting();
+        //InitializeBuffs();
+        //SetupVoting();
     }
 
     private void InitializeBuffs()
@@ -58,7 +58,11 @@ public class ChaosVotingSystem : ModSystem
             //ModContent.BuffType<Buffs.AllCritBuff>(),
             //ModContent.BuffType<Buffs.RagsToRichesBuff>(),
             //ModContent.BuffType<Buffs.RecallBuff>(),
-            ModContent.BuffType<Buffs.HelenKellerBuff>(),
+            //ModContent.BuffType<Buffs.HelenKellerBuff>(),
+            //ModContent.BuffType<Buffs.BlindPlaythroughBuff>(),
+            //ModContent.BuffType<Buffs.NoIFramesBuff>(),
+            //ModContent.BuffType<Buffs.PowerPlayBuff>(),
+            //ModContent.BuffType<Buffs.ExtremeSniperScopeBuff>(),
         };
     }
 
@@ -76,8 +80,8 @@ public class ChaosVotingSystem : ModSystem
         if (_tickCounter >= _votingDuration)
         {
             _tickCounter = 0;
-            TriggerBuff();
-            SetupVoting();
+            //TriggerBuff();
+            //SetupVoting();
         }
     }
 
@@ -100,14 +104,14 @@ public class ChaosVotingSystem : ModSystem
             .Select(x => _buffPool.ElementAt(x))
             .ToList();
 
-        string buffNames = string.Join("\n", _votingPool.Select(x => GetBuffInstance(x).DisplayName));
+        //string buffNames = string.Join("\n", _votingPool.Select(x => GetBuffInstance(x).DisplayName));
 
-        Terraria.Chat.ChatHelper.BroadcastChatMessage(
-            Terraria.Localization.NetworkText.FromLiteral("New chaos vote started!"),
-            Microsoft.Xna.Framework.Color.LimeGreen);
-        Terraria.Chat.ChatHelper.BroadcastChatMessage(
-            Terraria.Localization.NetworkText.FromLiteral(buffNames),
-            Microsoft.Xna.Framework.Color.LimeGreen);
+        //Terraria.Chat.ChatHelper.BroadcastChatMessage(
+        //    Terraria.Localization.NetworkText.FromLiteral("New chaos vote started!"),
+        //    Microsoft.Xna.Framework.Color.LimeGreen);
+        //Terraria.Chat.ChatHelper.BroadcastChatMessage(
+        //    Terraria.Localization.NetworkText.FromLiteral(buffNames),
+        //    Microsoft.Xna.Framework.Color.LimeGreen);
 
         foreach (var buff in _votingPool)
         {
@@ -142,15 +146,15 @@ public class ChaosVotingSystem : ModSystem
         _votes[voteNumber - 1]++;
     }
 
-    private Buffs.BaseChaosBuff GetBuffInstance(int buffType)
-    {
-        if (!_buffPool.Contains(buffType))
-        {
-            throw new System.Exception("Buff type not in buff pool");
-        }
+    //private Buffs.BaseChaosBuff GetBuffInstance(int buffType)
+    //{
+    //    if (!_buffPool.Contains(buffType))
+    //    {
+    //        throw new System.Exception("Buff type not in buff pool");
+    //    }
 
-        return (Buffs.BaseChaosBuff)ModContent.GetModBuff(buffType);
-    }
+    //    return (Buffs.BaseChaosBuff)ModContent.GetModBuff(buffType);
+    //}
 
     private void TriggerBuff()
     {

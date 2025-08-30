@@ -1,11 +1,11 @@
 using Microsoft.Xna.Framework;
 using Terraria;
 
-namespace TerrariaChaosMod.Content.Buffs;
+namespace TerrariaChaosMod.Content.Effects.PlayerEffects;
 
-public class BoostBrakingBuff : BaseChaosBuff
+public class BoostBrakingEffect : Effect
 {
-    public override void Update(Player player, ref int buffIndex)
+    public override bool Update(Player player)
     {
         Vector2 input = Vector2.Zero;
 
@@ -20,9 +20,9 @@ public class BoostBrakingBuff : BaseChaosBuff
 
         if (input.X != 0 && Vector2.Dot(player.velocity, input) < 0)
         {
-            //player.velocity *= 2f;
-
             player.velocity += -input * 2;
         }
+
+        return base.Update(player);
     }
 }

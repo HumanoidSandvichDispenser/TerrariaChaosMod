@@ -34,6 +34,13 @@ public class ChaosVolumeSystem : ModSystem
         return _previousMusicVolume >= 0;
     }
 
+    public void MuteVolume()
+    {
+        Main.musicVolume = 0;
+        Main.soundVolume = 0;
+        Main.ambientVolume = 0;
+    }
+
     public override void OnWorldUnload()
     {
         RestoreVolumeSettings();
