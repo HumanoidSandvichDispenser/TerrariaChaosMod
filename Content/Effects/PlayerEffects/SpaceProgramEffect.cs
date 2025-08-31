@@ -8,7 +8,7 @@ public class SpaceProgramEffect : Effect
     public override void ApplyEffect(Player player)
     {
         player.velocity.Y = -Player.jumpSpeed;
-        player.velocity.X = player.direction * 128f;
+        player.velocity.X = player.direction * 4f;
         player.jump = Player.jumpHeight;
 
         player.velocity *= 8f;

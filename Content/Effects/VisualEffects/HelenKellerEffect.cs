@@ -5,7 +5,7 @@ namespace TerrariaChaosMod.Content.Effects.VisualEffects;
 
 public class HelenKellerEffect : Effect
 {
-    private ChaosVolumeSystem _volumeSystem;
+    private readonly ChaosVolumeSystem _volumeSystem;
 
     public HelenKellerEffect()
     {
@@ -14,7 +14,11 @@ public class HelenKellerEffect : Effect
 
     public override void ApplyEffect(Player player)
     {
-        _volumeSystem.SaveVolumeSettings();
+        if (!_volumeSystem.IsVolumeModified())
+        {
+            _volumeSystem.SaveVolumeSettings();
+            _volumeSystem.MuteVolume();
+        }
 
         base.ApplyEffect(player);
     }

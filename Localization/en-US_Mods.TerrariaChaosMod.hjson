@@ -11,3 +11,34 @@ Items: {
 			'''
 	}
 }
+
+Effects: {
+	FakeLagEffect.DisplayName: Fake Lag
+	BoostBrakingEffect.DisplayName: Boost Braking
+	EatDaPooPooEffect.DisplayName: Eat Da Poo Poo
+	KillPlayerEffect.DisplayName: Kill Player
+	SpaceProgramEffect.DisplayName: Space Program
+	LargeItemsEffect.DisplayName: Large Items
+	SidewaysGravityEffect.DisplayName: Sideways Gravity
+	RagsToRichesEffect.DisplayName: Rags To Riches
+	HelenKellerEffect.DisplayName: Helen Keller Playthrough
+	NoMountEffect.DisplayName: No Mount
+	RecallEffect.DisplayName: Recall
+	BlindPlaythroughEffect.DisplayName: Blind Playthrough
+	NoIFramesEffect.DisplayName: No IFrames
+	PowerPlayEffect.DisplayName: Power Play
+	ExtremeSniperScopeEffect.DisplayName: Extreme Sniper Scope
+	ReforgeEffect.DisplayName: Reforge
+	AllCritsEffect.DisplayName: All Crits
+	PoisonousPotionsEffect.DisplayName: Poisonous Potions
+	ConstantMapEffect.DisplayName: Constant Map
+	FakeCrashEffect.DisplayName: Fake Crash
+	RealCrashEffect.DisplayName: Real Crash Effect
+}
+
+Buffs: {
+	NoIFramesBuff: {
+		DisplayName: No IFrames
+		Description: You have no invincibility frames.
+	}
+}

@@ -1,14 +1,19 @@
 using System;
 using System.Collections.Generic;
 using Terraria;
+using Terraria.ModLoader;
+using Terraria.Localization;
 
 namespace TerrariaChaosMod.Content.Effects;
 
-public abstract class Effect
+public abstract class Effect : ModType, ILocalizedModType, ICloneable
 {
-    public virtual string Name { get; }
+    public string LocalizationCategory => "Effects";
 
-    public string DisplayName { get; protected set; }
+    public virtual LocalizedText DisplayName
+    {
+        get => this.GetLocalization(nameof(DisplayName), PrettyPrintName);
+    }
 
     /// <summary>
     /// Duration of the effect in ticks.
@@ -24,7 +29,12 @@ public abstract class Effect
 
     public Effect()
     {
-        DisplayName = Name;
+
+    }
+
+    public override void Load()
+    {
+        this.GetLocalization(nameof(DisplayName), PrettyPrintName);
     }
 
     public void ResetTime()
@@ -96,5 +106,15 @@ public abstract class Effect
     public static string GetLocalizedName(Type type)
     {
         return $"Mods.{nameof(TerrariaChaosMod)}.Effects.{type.Name}";
+    }
+
+    protected sealed override void Register()
+    {
+        ModTypeLookup<Effect>.Register(this);
+    }
+
+    public object Clone()
+    {
+        return MemberwiseClone();
     }
 }

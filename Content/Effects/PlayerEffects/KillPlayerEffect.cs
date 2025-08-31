@@ -5,8 +5,6 @@ namespace TerrariaChaosMod.Content.Effects.PlayerEffects;
 
 public class KillPlayerEffect : Effect
 {
-    public override string Name => "Kill Player";
-
     public override int Duration => Seconds(5);
 
     public override void ApplyEffect(Player player)
