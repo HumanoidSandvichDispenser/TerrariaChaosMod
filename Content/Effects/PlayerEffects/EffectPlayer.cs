@@ -13,11 +13,14 @@ public sealed class EffectPlayer : ModPlayer
     public Vector2 GravityDirection = Vector2.Zero;
     public bool DoGravity = false;
 
+    public bool TemporaryMediumcore = false;
+
     public override void ResetEffects()
     {
         HealValueScale = 1;
         Zoom = -1;
         DoGravity = true;
+        TemporaryMediumcore = false;
     }
 
     public override void GetHealLife(Item item, bool quickHeal, ref int healValue)
@@ -59,6 +62,21 @@ public sealed class EffectPlayer : ModPlayer
             {
                 Player.velocity.Y = terminalVelocity * System.Math.Sign(newY);
             }
+        }
+    }
+
+    public override void Kill(
+        double damage,
+        int hitDirection,
+        bool pvp,
+        Terraria.DataStructures.PlayerDeathReason damageSource)
+    {
+        if (TemporaryMediumcore)
+        {
+            // drop all items
+
+            Player.DropItems();
+            Player.DropCoins();
         }
     }
 }
