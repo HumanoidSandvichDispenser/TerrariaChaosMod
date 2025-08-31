@@ -4,9 +4,9 @@ namespace TerrariaChaosMod.Content.Effects.PlayerEffects;
 
 public class ExtremeSniperScopeEffect : Effect
 {
-    public override bool Update(Player player)
+    public override void PostUpdate(Player player)
     {
         player.GetModPlayer<EffectPlayer>().Zoom = 2;
-        return base.Update(player);
+        base.PostUpdate(player);
     }
 }
