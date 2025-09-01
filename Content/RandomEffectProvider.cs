@@ -7,6 +7,8 @@ public class RandomEffectProvider : IEffectProvider
 {
     public bool IsReady => true;
 
+    public bool CanProvide => true;
+
     private IReadOnlySet<Effects.Effect> _effectPool;
 
     public void ReinitializePool(IReadOnlySet<Effects.Effect> effectPool)

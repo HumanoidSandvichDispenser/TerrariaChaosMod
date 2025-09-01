@@ -1,11 +1,16 @@
 using System.Collections.Generic;
 using System.Linq;
+using Terraria.ModLoader;
+using TerrariaChaosMod.Content.Effects.VisualEffects;
+using TerrariaChaosMod.Integration;
 
 namespace TerrariaChaosMod.Content;
 
 public class TwitchVoteEffectProvider : IEffectProvider
 {
     public bool IsReady { get; private set; } = false;
+
+    public bool CanProvide { get; private set; } = false;
 
     private IReadOnlySet<Effects.Effect> _effectsList;
 
@@ -17,6 +22,59 @@ public class TwitchVoteEffectProvider : IEffectProvider
 
     public int VoteNumberOffset { get; private set; } = 0;
 
+    private Integration.TwitchChatReader _chatReader;
+
+    public TwitchVoteEffectProvider()
+    {
+        _chatReader = new Integration.TwitchChatReader();
+        _chatReader.OnMessageReceived += ChatReader_OnMessageReceived;
+        _chatReader.OnConnected += ChatReader_OnConnected;
+    }
+
+    public void Connect(string channel)
+    {
+        if (_chatReader.IsConnected)
+        {
+            _chatReader.Disconnect();
+        }
+        IsReady = _chatReader.Connect(channel);
+    }
+
+    public void Disconnect()
+    {
+        if (_chatReader.IsConnected)
+        {
+            _chatReader.Disconnect();
+        }
+        IsReady = false;
+        CanProvide = false;
+    }
+
+    private void ChatReader_OnMessageReceived(object sender, CommonMessageArgs e)
+    {
+        if (!IsReady)
+        {
+            return;
+        }
+
+        Terraria.Main.NewText($"Message from {e.Username}: {e.Message}");
+        if (int.TryParse(e.Message, out int voteNumber))
+        {
+            if (voteNumber >= 1 + VoteNumberOffset && voteNumber <= 4 + VoteNumberOffset)
+            {
+                Terraria.Main.NewText($"{e.Username} voted for option {voteNumber}");
+                TallyVote(voteNumber);
+            }
+        }
+    }
+
+    private void ChatReader_OnConnected(object sender, CommonReadyArgs e)
+    {
+        // notify that we have connected to chat
+
+        Terraria.Main.NewText($"Connected to channel {e.ChannelName}");
+    }
+
     public void ReinitializePool(IReadOnlySet<Effects.Effect> effectPool)
     {
         // when initializing the pool, take 3 random effects from the effect
@@ -24,13 +82,16 @@ public class TwitchVoteEffectProvider : IEffectProvider
 
         _effectsList = effectPool;
         SetupVotingPool();
-        IsReady = true;
+        CanProvide = true;
     }
 
     private void SetupVotingPool()
     {
+        var crash = ModContent.GetInstance<RealCrashEffect>();
+
         _randomPool.Clear();
         _randomPool.UnionWith(_effectsList);
+        _randomPool.Add(crash);
 
         var rand = new System.Random();
 
@@ -47,6 +108,9 @@ public class TwitchVoteEffectProvider : IEffectProvider
         {
             _randomPool.Remove(effect);
         }
+
+        // real crash can be voted for, but not randomly selected
+        _randomPool.Remove(crash);
 
         for (int i = 0; i < _votes.Length; i++)
         {

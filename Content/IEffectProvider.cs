@@ -6,6 +6,8 @@ public interface IEffectProvider
 {
     public bool IsReady { get; }
 
+    public bool CanProvide { get; }
+
     public void ReinitializePool(IReadOnlySet<Effects.Effect> effectPool);
 
     public Effects.Effect GetEffect();
