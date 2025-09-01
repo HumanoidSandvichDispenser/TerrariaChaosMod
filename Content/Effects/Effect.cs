@@ -18,7 +18,7 @@ public abstract class Effect : ModType, ILocalizedModType, ICloneable
     /// <summary>
     /// Duration of the effect in ticks.
     /// </summary>
-    public virtual int Duration => Seconds(10);
+    public virtual int Duration => Seconds(30);
 
     /// <summary>
     /// Current time left of the effect in ticks.
@@ -26,6 +26,11 @@ public abstract class Effect : ModType, ILocalizedModType, ICloneable
     public int TimeLeft { get; set; }
 
     private Dictionary<int, Action> _scheduledActions = new();
+
+    public virtual bool Conditions()
+    {
+        return true;
+    }
 
     public Effect()
     {

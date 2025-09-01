@@ -10,7 +10,7 @@ public class SidewaysGravityEffect : Effect
     public override void ApplyEffect(Terraria.Player player)
     {
         float x = Main.rand.NextFloat(0.5f, 1) * (Main.rand.NextBool() ? 1 : -1);
-        float y = Main.rand.NextFloat(-0.25f, 0);
+        float y = Main.rand.NextFloat(-0.125f, 0);
         gravityDirection = new Vector2(x, y);
         gravityDirection.Normalize();
         gravityDirection *= player.gravity;

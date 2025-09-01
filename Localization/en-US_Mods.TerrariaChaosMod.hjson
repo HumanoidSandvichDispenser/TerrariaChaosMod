@@ -30,10 +30,17 @@ Effects: {
 	ExtremeSniperScopeEffect.DisplayName: Extreme Sniper Scope
 	ReforgeEffect.DisplayName: Reforge
 	AllCritsEffect.DisplayName: All Crits
-	PoisonousPotionsEffect.DisplayName: Poisonous Potions
 	ConstantMapEffect.DisplayName: Constant Map
 	FakeCrashEffect.DisplayName: Fake Crash
-	RealCrashEffect.DisplayName: Real Crash Effect
+	RealCrashEffect.DisplayName: Fake Fake Crash
+	MovementSpeed5xEffect.DisplayName: 5x Movement Speed
+	SlowAccelerationEffect.DisplayName: Slow Acceleration
+	SwitchToRandomLoadoutEffect.DisplayName: Switch To Random Loadout
+	RollCreditsEffect.DisplayName: Roll Credits
+	IgnitePlayerEffect.DisplayName: Ignite Player
+	TemporaryMediumcoreEffect.DisplayName: Temporary Mediumcore
+	RichesToRagsEffect.DisplayName: Riches To Rags Effect
+	AFKEffect.DisplayName: A F K Effect
 }
 
 Buffs: {
@@ -42,3 +49,6 @@ Buffs: {
 		Description: You have no invincibility frames.
 	}
 }
+
+InfoDisplays.EffectsInfoDisplay.DisplayName: Effects Info Display
+HiddenEffect: ""

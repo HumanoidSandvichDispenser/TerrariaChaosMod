@@ -49,6 +49,9 @@ public partial class ChaosEffectsSystem : ModSystem
             ModContent.GetInstance<ItemEffects.ReforgeEffect>(),
             ModContent.GetInstance<ItemEffects.LargeItemsEffect>(),
             ModContent.GetInstance<ItemEffects.EatDaPooPooEffect>(),
+            ModContent.GetInstance<ItemEffects.SwitchToRandomLoadoutEffect>(),
+            ModContent.GetInstance<ItemEffects.RagsToRichesEffect>(),
+            ModContent.GetInstance<ItemEffects.RichesToRagsEffect>(),
 
             ModContent.GetInstance<PlayerEffects.AllCritsEffect>(),
             ModContent.GetInstance<PlayerEffects.PowerPlayEffect>(),
@@ -57,11 +60,18 @@ public partial class ChaosEffectsSystem : ModSystem
             ModContent.GetInstance<PlayerEffects.SpaceProgramEffect>(),
             ModContent.GetInstance<PlayerEffects.SidewaysGravityEffect>(),
             ModContent.GetInstance<PlayerEffects.ExtremeSniperScopeEffect>(),
+            ModContent.GetInstance<PlayerEffects.MovementSpeed5xEffect>(),
+            ModContent.GetInstance<PlayerEffects.SlowAccelerationEffect>(),
+            ModContent.GetInstance<PlayerEffects.IgnitePlayerEffect>(),
+            //ModContent.GetInstance<PlayerEffects.AFKEffect>(),
+            ModContent.GetInstance<PlayerEffects.TemporaryMediumcoreEffect>(),
+            ModContent.GetInstance<PlayerEffects.NoIFramesEffect>(),
 
-            ModContent.GetInstance<VisualEffects.RealCrashEffect>(),
             ModContent.GetInstance<VisualEffects.FakeCrashEffect>(),
             ModContent.GetInstance<VisualEffects.ConstantMapEffect>(),
             ModContent.GetInstance<VisualEffects.HelenKellerEffect>(),
+            //ModContent.GetInstance<VisualEffects.RollCreditsEffect>(),
+            ModContent.GetInstance<VisualEffects.FakeLagEffect>(),
         };
 
         // ensure no elements are null
@@ -81,9 +91,14 @@ public partial class ChaosEffectsSystem : ModSystem
         _tickCounter = 25 * 60;
     }
 
+    public override void OnWorldUnload()
+    {
+        TwitchVoteEffectProvider.Disconnect();
+    }
+
     public override void PreUpdateWorld()
     {
-        if (!IsEnabled)
+        if (!IsEnabled || !CurrentEffectProvider.IsReady)
         {
             return;
         }
@@ -91,7 +106,7 @@ public partial class ChaosEffectsSystem : ModSystem
         if (_tickCounter >= _votingDuration)
         {
             _tickCounter = 0;
-            if (CurrentEffectProvider.IsReady)
+            if (CurrentEffectProvider.CanProvide)
             {
                 var effect = CurrentEffectProvider.GetEffect().Clone() as Effect;
                 EffectsToApply.Enqueue(effect);

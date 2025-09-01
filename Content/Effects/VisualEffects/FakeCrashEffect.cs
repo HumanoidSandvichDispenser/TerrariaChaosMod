@@ -1,10 +1,26 @@
 using Terraria;
+using Terraria.ModLoader;
+using Terraria.Localization;
 
 namespace TerrariaChaosMod.Content.Effects.VisualEffects;
 
 public class FakeCrashEffect : Effect
 {
-    private bool _hasSecondFreeze = false;
+    private bool _hasLastFreeze = false;
+
+    protected bool _showName = true;
+
+    public override LocalizedText DisplayName
+    {
+        get
+        {
+            if (!_showName)
+            {
+                return Language.GetText("Mods.TerrariaChaosMod.HiddenEffect");
+            }
+            return this.GetLocalization(nameof(DisplayName));
+        }
+    }
 
     protected void SetResponding(bool isResponding)
     {
@@ -24,16 +40,15 @@ public class FakeCrashEffect : Effect
 
     public override void ApplyEffect(Player player)
     {
+        _showName = false;
         SetResponding(false);
 
         // freeze for 5 seconds, and another short freeze after 30 ticks
-        _hasSecondFreeze = false;
-        System.Threading.Thread.Sleep(5000);
-        After(30,
-            () => {
-                System.Threading.Thread.Sleep(1000);
-                _hasSecondFreeze = true;
-            });
+        _hasLastFreeze = false;
+        System.Threading.Thread.Sleep(200);
+        After(30, () => System.Threading.Thread.Sleep(400));
+        After(40, () => System.Threading.Thread.Sleep(400));
+        After(60, () => { System.Threading.Thread.Sleep(5000); _hasLastFreeze = true; });
 
         base.ApplyEffect(player);
     }
@@ -42,11 +57,12 @@ public class FakeCrashEffect : Effect
     {
         // end the effect after the second freeze
         base.Update(player);
-        return _hasSecondFreeze;
+        return _hasLastFreeze;
     }
 
     public override void CleanUp(Player player)
     {
+        _showName = true;
         SetResponding(true);
         base.CleanUp(player);
     }

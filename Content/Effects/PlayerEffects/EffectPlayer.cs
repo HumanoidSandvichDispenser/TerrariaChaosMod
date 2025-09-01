@@ -15,12 +15,15 @@ public sealed class EffectPlayer : ModPlayer
 
     public bool TemporaryMediumcore = false;
 
+    public bool EveryChestIsTrapped = false;
+
     public override void ResetEffects()
     {
         HealValueScale = 1;
         Zoom = -1;
         DoGravity = true;
         TemporaryMediumcore = false;
+        EveryChestIsTrapped = true;
     }
 
     public override void GetHealLife(Item item, bool quickHeal, ref int healValue)

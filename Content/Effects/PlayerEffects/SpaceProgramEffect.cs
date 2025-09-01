@@ -11,7 +11,7 @@ public class SpaceProgramEffect : Effect
         player.velocity.X = player.direction * 4f;
         player.jump = Player.jumpHeight;
 
-        player.velocity *= 8f;
+        player.velocity *= 32f;
     }
 
     public override bool Update(Player player)

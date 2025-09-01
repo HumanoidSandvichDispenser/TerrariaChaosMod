@@ -7,6 +7,8 @@ public class HelenKellerEffect : Effect
 {
     private readonly ChaosVolumeSystem _volumeSystem;
 
+    public override int Duration => Seconds(15);
+
     public HelenKellerEffect()
     {
         _volumeSystem = ModContent.GetInstance<ChaosVolumeSystem>();
@@ -28,8 +30,8 @@ public class HelenKellerEffect : Effect
         if (!_volumeSystem.IsVolumeModified())
         {
             _volumeSystem.SaveVolumeSettings();
-            _volumeSystem.MuteVolume();
         }
+        _volumeSystem.MuteVolume();
 
         Main.BlackFadeIn = 255;
         Lighting.GlobalBrightness = 0f;

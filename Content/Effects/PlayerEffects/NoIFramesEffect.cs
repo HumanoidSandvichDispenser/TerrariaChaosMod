@@ -1,4 +1,4 @@
-namespace TerrariaChaosMod.Content.Effects;
+namespace TerrariaChaosMod.Content.Effects.PlayerEffects;
 
 public class NoIFramesEffect : BuffEffect<Buffs.NoIFramesBuff>
 {
