@@ -7,7 +7,7 @@ gameplay and includes Twitch integration for viewer voting.
 
 This project makes use of third-party libraries and code:
 
-### TwitchLib
+### [TwitchLib](https://github.com/TwitchLib/TwitchLib)
 
 Licensed under the [MIT License](https://opensource.org/licenses/MIT).
 Copyright (c) TwitchLib contributors.
