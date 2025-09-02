@@ -50,6 +50,8 @@ SOFTWARE.
 
 ### [AnyPaletteShader](https://github.com/BasicallyIAmFox/AnyPaletteShader)
 
+Copyright 2023-2024 BasicallyIAmFox
+
 This project is licensed under the Apache License You may obtain a copy of the
 License at: <http://www.apache.org/licenses/LICENSE-2.0>
 
