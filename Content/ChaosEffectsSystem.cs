@@ -72,6 +72,9 @@ public partial class ChaosEffectsSystem : ModSystem
             ModContent.GetInstance<VisualEffects.HelenKellerEffect>(),
             //ModContent.GetInstance<VisualEffects.RollCreditsEffect>(),
             ModContent.GetInstance<VisualEffects.FakeLagEffect>(),
+            ModContent.GetInstance<VisualEffects.InvertColorsEffect>(),
+            ModContent.GetInstance<VisualEffects.RainbowEffect>(),
+            ModContent.GetInstance<VisualEffects.LHeroineEffect>(),
         };
 
         // ensure no elements are null
@@ -84,6 +87,11 @@ public partial class ChaosEffectsSystem : ModSystem
 
         RandomEffectProvider.ReinitializePool(_effectPool);
         TwitchVoteEffectProvider.ReinitializePool(_effectPool);
+    }
+
+    public override void Unload()
+    {
+        TwitchVoteEffectProvider?.Disconnect();
     }
 
     public override void OnWorldLoad()

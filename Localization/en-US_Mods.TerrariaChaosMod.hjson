@@ -41,6 +41,9 @@ Effects: {
 	TemporaryMediumcoreEffect.DisplayName: Temporary Mediumcore
 	RichesToRagsEffect.DisplayName: Riches To Rags Effect
 	AFKEffect.DisplayName: A F K Effect
+	InvertColorsEffect.DisplayName: Invert Colors
+	RainbowEffect.DisplayName: Rainbow
+	LHeroineEffect.DisplayName: L'Heroine
 }
 
 Buffs: {
