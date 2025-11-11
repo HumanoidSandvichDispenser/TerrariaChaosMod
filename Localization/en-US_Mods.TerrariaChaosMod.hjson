@@ -50,6 +50,7 @@ Effects: {
 	NoHitRunEffect.DisplayName: No Hit Run
 	PacifistRunEffect.DisplayName: Pacifist Run
 	SpawnEmpressOfLightEffect.DisplayName: Spawn Empress of Light
+	CloudGamingEffect.DisplayName: Cloud Gaming
 }
 
 Buffs: {

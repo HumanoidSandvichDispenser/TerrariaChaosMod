@@ -122,6 +122,8 @@ public abstract class Effect : ModType, ILocalizedModType, ICloneable
 
     public object Clone()
     {
-        return MemberwiseClone();
+        var clone = MemberwiseClone() as Effect;
+        clone._scheduledActions = new();
+        return clone;
     }
 }

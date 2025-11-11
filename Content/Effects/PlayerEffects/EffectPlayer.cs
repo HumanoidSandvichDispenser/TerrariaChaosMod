@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
@@ -23,6 +24,39 @@ public sealed class EffectPlayer : ModPlayer
     public bool IsPacifistRunActive = false;
 
     public bool IsHollowKnightMovementActive = false;
+
+    public Queue<MovementState> ControlQueue = new();
+
+    public bool EnqueueControls = false;
+
+    public bool DequeueControls = false;
+
+    public struct MovementState
+    {
+        public bool ControlLeft;
+        public bool ControlRight;
+        public bool ControlUp;
+        public bool ControlDown;
+        public bool ControlUseItem;
+        public bool ControlHook;
+        public bool ControlMount;
+        public bool ControlJump;
+    }
+
+    public MovementState GetMovementState()
+    {
+        return new MovementState
+        {
+            ControlLeft = Player.controlLeft,
+            ControlRight = Player.controlRight,
+            ControlUp = Player.controlUp,
+            ControlDown = Player.controlDown,
+            ControlUseItem = Player.controlUseItem,
+            ControlHook = Player.controlHook,
+            ControlMount = Player.controlMount,
+            ControlJump = Player.controlJump
+        };
+    }
 
     public override void ResetEffects()
     {
@@ -120,5 +154,44 @@ public sealed class EffectPlayer : ModPlayer
             Player.DropItems();
             Player.DropCoins();
         }
+    }
+
+    public override void SetControls()
+    {
+        if (EnqueueControls)
+        {
+            MovementState state = GetMovementState();
+            ControlQueue.Enqueue(state);
+        }
+
+        if (DequeueControls)
+        {
+            MovementState state;
+            if (ControlQueue.TryDequeue(out state))
+            {
+                Player.controlLeft = state.ControlLeft;
+                Player.controlRight = state.ControlRight;
+                Player.controlUp = state.ControlUp;
+                Player.controlDown = state.ControlDown;
+                Player.controlUseItem = state.ControlUseItem;
+                Player.controlHook = state.ControlHook;
+                Player.controlMount = state.ControlMount;
+                Player.controlJump = state.ControlJump;
+            }
+            else
+            {
+                // no input, so disable all controls
+                Player.controlLeft = false;
+                Player.controlRight = false;
+                Player.controlUp = false;
+                Player.controlDown = false;
+                Player.controlUseItem = false;
+                Player.controlHook = false;
+                Player.controlMount = false;
+                Player.controlJump = false;
+            }
+        }
+
+        base.SetControls();
     }
 }

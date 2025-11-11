@@ -73,6 +73,7 @@ public partial class ChaosEffectsSystem : ModSystem
             ModContent.GetInstance<PlayerEffects.ButteryShoesEffect>(),
             ModContent.GetInstance<PlayerEffects.NoHitRunEffect>(),
             ModContent.GetInstance<PlayerEffects.PacifistRunEffect>(),
+            ModContent.GetInstance<PlayerEffects.CloudGamingEffect>(),
 
             ModContent.GetInstance<VisualEffects.FakeCrashEffect>(),
             ModContent.GetInstance<VisualEffects.ConstantMapEffect>(),
