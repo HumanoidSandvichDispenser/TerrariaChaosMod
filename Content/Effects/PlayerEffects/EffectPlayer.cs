@@ -1,6 +1,7 @@
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
+using Terraria.DataStructures;
 
 namespace TerrariaChaosMod.Content.Effects.PlayerEffects;
 
@@ -17,13 +18,20 @@ public sealed class EffectPlayer : ModPlayer
 
     public bool EveryChestIsTrapped = false;
 
+    public bool IsNoHitRunActive = false;
+
+    public bool IsPacifistRunActive = false;
+
+    public bool IsHollowKnightMovementActive = false;
+
     public override void ResetEffects()
     {
         HealValueScale = 1;
         Zoom = -1;
-        DoGravity = true;
+        DoGravity = false;
         TemporaryMediumcore = false;
         EveryChestIsTrapped = true;
+        IsNoHitRunActive = false;
     }
 
     public override void GetHealLife(Item item, bool quickHeal, ref int healValue)
@@ -66,6 +74,37 @@ public sealed class EffectPlayer : ModPlayer
                 Player.velocity.Y = terminalVelocity * System.Math.Sign(newY);
             }
         }
+    }
+
+    private void ModifyIncomingDamage(ref Player.HurtModifiers modifiers)
+    {
+        if (IsNoHitRunActive)
+        {
+            modifiers.SourceDamage.Flat = Player.statLifeMax2;
+        }
+    }
+
+    private void ModifyOutgoingDamage(ref NPC.HitModifiers modifiers)
+    {
+        if (IsPacifistRunActive)
+        {
+            modifiers.SourceDamage.Scale(0);
+        }
+    }
+
+    public override void ModifyHurt(ref Player.HurtModifiers modifiers)
+    {
+        ModifyIncomingDamage(ref modifiers);
+    }
+
+    public override void ModifyHitByNPC(NPC npc, ref Player.HurtModifiers modifiers)
+    {
+        ModifyIncomingDamage(ref modifiers);
+    }
+
+    public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
+    {
+        ModifyOutgoingDamage(ref modifiers);
     }
 
     public override void Kill(

@@ -10,7 +10,7 @@ public class LHeroineEffect : ShaderEffect
 
     public override void ApplyEffect(Player player)
     {
-        var sound = new SoundStyle("TerrariaChaosMod/Content/Music/heroine");
+        var sound = TerrariaChaosMod.LHeroine;
         SoundEngine.PlaySound(sound, player.position);
         base.ApplyEffect(player);
     }

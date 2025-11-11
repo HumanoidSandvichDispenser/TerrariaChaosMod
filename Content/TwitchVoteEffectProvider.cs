@@ -29,23 +29,23 @@ public class TwitchVoteEffectProvider : IEffectProvider
         _chatReader = new Integration.TwitchChatReader();
         _chatReader.OnMessageReceived += ChatReader_OnMessageReceived;
         _chatReader.OnConnected += ChatReader_OnConnected;
+        _chatReader.OnJoinedChannel += ChatReader_OnConnected;
+    }
+
+    ~TwitchVoteEffectProvider()
+    {
+        _chatReader.Disconnect();
     }
 
     public void Connect(string channel)
     {
-        if (_chatReader.IsConnected)
-        {
-            _chatReader.Disconnect();
-        }
-        IsReady = _chatReader.Connect(channel);
+        _chatReader.JoinChannel(channel);
+        IsReady = _chatReader.IsConnected;
     }
 
     public void Disconnect()
     {
-        if (_chatReader.IsConnected)
-        {
-            _chatReader.Disconnect();
-        }
+        _chatReader.LeaveAllChannels();
         IsReady = false;
         CanProvide = false;
     }

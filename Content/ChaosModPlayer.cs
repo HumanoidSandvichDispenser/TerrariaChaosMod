@@ -34,6 +34,7 @@ public class ChaosModPlayer : ModPlayer
 
         foreach (var effect in activeEffects)
         {
+            effect.CurrentTick++;
             if (effect.Update(Player))
             {
                 effect.CleanUp(Player);

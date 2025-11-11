@@ -41,9 +41,15 @@ Effects: {
 	TemporaryMediumcoreEffect.DisplayName: Temporary Mediumcore
 	RichesToRagsEffect.DisplayName: Riches To Rags Effect
 	AFKEffect.DisplayName: A F K Effect
+	DoubleEffectDurationEffect.DisplayName: Double Effect Duration Effect
 	InvertColorsEffect.DisplayName: Invert Colors
 	RainbowEffect.DisplayName: Rainbow
 	LHeroineEffect.DisplayName: L'Heroine
+	ButteryShoesEffect.DisplayName: Buttery Shoes
+	RudeTownNPCsEffect.DisplayName: Rude Town NPCs
+	NoHitRunEffect.DisplayName: No Hit Run
+	PacifistRunEffect.DisplayName: Pacifist Run
+	SpawnEmpressOfLightEffect.DisplayName: Spawn Empress of Light
 }
 
 Buffs: {
@@ -55,3 +61,29 @@ Buffs: {
 
 InfoDisplays.EffectsInfoDisplay.DisplayName: Effects Info Display
 HiddenEffect: ""
+
+Configs: {
+	ChaosModConfig: {
+		DisplayName: Chaos Mod Config
+
+		EnableTwitchVoting: {
+			Label: Enable Twitch Voting
+			Tooltip: Allows viewers to vote for effects via chat messages.
+		}
+
+		TwitchChannelName: {
+			Label: Twitch Channel Name
+			Tooltip: The name of the Twitch channel to connect to for voting.
+		}
+
+		DisallowedEffects: {
+			Label: Disallowed Effects
+			Tooltip: ""
+		}
+
+		EnableProbabilisticVoting: {
+			Label: Enable Probabilistic Voting
+			Tooltip: Enables probabilistic voting where effects with more votes have a higher chance of being selected. If off, enables deterministic voting where the effect with the most votes is always selected.
+		}
+	}
+}

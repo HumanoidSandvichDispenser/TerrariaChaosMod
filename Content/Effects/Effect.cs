@@ -25,6 +25,8 @@ public abstract class Effect : ModType, ILocalizedModType, ICloneable
     /// </summary>
     public int TimeLeft { get; set; }
 
+    public int CurrentTick { get; set; }
+
     private Dictionary<int, Action> _scheduledActions = new();
 
     public virtual bool Conditions()

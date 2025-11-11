@@ -1,4 +1,5 @@
 using System;
+using System.Threading.Tasks;
 using TwitchLib.Client;
 using TwitchLib.Client.Events;
 using TwitchLib.Client.Models;
@@ -18,6 +19,8 @@ public class TwitchChatReader
     public event EventHandler<CommonMessageArgs> OnMessageReceived;
 
     public event EventHandler<CommonReadyArgs> OnConnected;
+
+    public event EventHandler<CommonReadyArgs> OnJoinedChannel;
 
     public TwitchChatReader()
     {
@@ -40,6 +43,7 @@ public class TwitchChatReader
 
         _client.OnConnected += Client_OnConnected;
         _client.OnMessageReceived += Client_OnMessageReceived;
+        _client.OnJoinedChannel += Client_OnJoinedChannel;
     }
 
     ~TwitchChatReader()
@@ -47,10 +51,19 @@ public class TwitchChatReader
         Disconnect();
     }
 
-    public bool Connect(string channelName)
+    public bool Connect(string channelName = null)
     {
         _client.Initialize(_credentials, channelName);
         return _client.Connect();
+    }
+
+    public async Task<bool> ConnectAsync(string channelName)
+    {
+        // twitch client does not support async connect
+        // so we just call the sync version in a task
+        // and wait for it to complete
+
+        return await Task.Run(() => Connect(channelName));
     }
 
     public void Disconnect()
@@ -58,6 +71,31 @@ public class TwitchChatReader
         if (_client.IsConnected)
         {
             _client.Disconnect();
+        }
+    }
+
+    public void JoinChannel(string channelName)
+    {
+        if (!_client.IsConnected)
+        {
+            Connect(channelName);
+        }
+        else
+        {
+            LeaveAllChannels();
+
+            _client.JoinChannel(channelName);
+        }
+    }
+
+    public void LeaveAllChannels()
+    {
+        if (_client.IsConnected)
+        {
+            foreach (var channel in _client.JoinedChannels)
+            {
+                _client.LeaveChannel(channel);
+            }
         }
     }
 
@@ -79,9 +117,18 @@ public class TwitchChatReader
     {
         var args = new CommonReadyArgs
         {
-            ChannelName = e.AutoJoinChannel
         };
 
         OnConnected?.Invoke(this, args);
+    }
+
+    private void Client_OnJoinedChannel(object sender, OnJoinedChannelArgs e)
+    {
+        var args = new CommonReadyArgs
+        {
+            ChannelName = e.Channel
+        };
+
+        OnJoinedChannel?.Invoke(this, args);
     }
 }

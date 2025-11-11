@@ -5,6 +5,7 @@ using TerrariaChaosMod.Content.Effects;
 using ItemEffects = TerrariaChaosMod.Content.Effects.ItemEffects;
 using PlayerEffects = TerrariaChaosMod.Content.Effects.PlayerEffects;
 using VisualEffects = TerrariaChaosMod.Content.Effects.VisualEffects;
+using SpawnEffects = TerrariaChaosMod.Content.Effects.SpawnEffects;
 
 namespace TerrariaChaosMod.Content;
 
@@ -12,7 +13,11 @@ public partial class ChaosEffectsSystem : ModSystem
 {
     private int _tickCounter = 25 * 60;
 
+    public float Progress => _tickCounter / (float)_votingDuration;
+
     private int _votingDuration = 30 * 60;
+
+    public float DurationMultiplier { get; set; } = 1f;
 
     private HashSet<Effect> _effectPool;
 
@@ -63,18 +68,22 @@ public partial class ChaosEffectsSystem : ModSystem
             ModContent.GetInstance<PlayerEffects.MovementSpeed5xEffect>(),
             ModContent.GetInstance<PlayerEffects.SlowAccelerationEffect>(),
             ModContent.GetInstance<PlayerEffects.IgnitePlayerEffect>(),
-            //ModContent.GetInstance<PlayerEffects.AFKEffect>(),
             ModContent.GetInstance<PlayerEffects.TemporaryMediumcoreEffect>(),
             ModContent.GetInstance<PlayerEffects.NoIFramesEffect>(),
+            ModContent.GetInstance<PlayerEffects.ButteryShoesEffect>(),
+            ModContent.GetInstance<PlayerEffects.NoHitRunEffect>(),
+            ModContent.GetInstance<PlayerEffects.PacifistRunEffect>(),
 
             ModContent.GetInstance<VisualEffects.FakeCrashEffect>(),
             ModContent.GetInstance<VisualEffects.ConstantMapEffect>(),
             ModContent.GetInstance<VisualEffects.HelenKellerEffect>(),
-            //ModContent.GetInstance<VisualEffects.RollCreditsEffect>(),
+            ModContent.GetInstance<VisualEffects.RollCreditsEffect>(),
             ModContent.GetInstance<VisualEffects.FakeLagEffect>(),
             ModContent.GetInstance<VisualEffects.InvertColorsEffect>(),
             ModContent.GetInstance<VisualEffects.RainbowEffect>(),
             ModContent.GetInstance<VisualEffects.LHeroineEffect>(),
+
+            ModContent.GetInstance<SpawnEffects.SpawnEmpressOfLightEffect>(),
         };
 
         // ensure no elements are null
