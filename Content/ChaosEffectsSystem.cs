@@ -47,7 +47,11 @@ public partial class ChaosEffectsSystem : ModSystem
         CurrentEffectProvider = TwitchVoteEffectProvider;
     }
 
-    public override void OnModLoad()
+    /// <summary>
+    /// Loads the master pool of chaos effects, removing any that are disabled
+    /// in config. Also initializes the effect providers with the new pool.
+    /// </summary>
+    public void LoadMasterPool()
     {
         _effectPool = new HashSet<Effects.Effect>()
         {
@@ -75,6 +79,7 @@ public partial class ChaosEffectsSystem : ModSystem
             ModContent.GetInstance<PlayerEffects.PacifistRunEffect>(),
             ModContent.GetInstance<PlayerEffects.CloudGamingEffect>(),
 
+            ModContent.GetInstance<VisualEffects.RealCrashEffect>(),
             ModContent.GetInstance<VisualEffects.FakeCrashEffect>(),
             ModContent.GetInstance<VisualEffects.ConstantMapEffect>(),
             ModContent.GetInstance<VisualEffects.HelenKellerEffect>(),
@@ -88,7 +93,19 @@ public partial class ChaosEffectsSystem : ModSystem
         };
 
         // ensure no elements are null
-        _effectPool = new HashSet<Effect>(_effectPool.Where(e => e != null));
+        _effectPool.RemoveWhere(effect => effect is null);
+
+        // disable effects if listed in config
+        var config = ModContent.GetInstance<ChaosModConfig>();
+        HashSet<string> disabledEffects = config.DisabledEffects
+            .Split(',')
+            .Select(s => s.Trim())
+            .Where(s => !string.IsNullOrEmpty(s))
+            .ToHashSet();
+
+        // remove disabled effects from pool
+        int removedCount = _effectPool
+            .RemoveWhere(effect => disabledEffects.Contains(effect.Name));
 
         foreach (var effect in _effectPool)
         {
@@ -97,6 +114,14 @@ public partial class ChaosEffectsSystem : ModSystem
 
         RandomEffectProvider.ReinitializePool(_effectPool);
         TwitchVoteEffectProvider.ReinitializePool(_effectPool);
+
+        Terraria.Main.NewText("Loaded chaos effect pool with " +
+            $"{_effectPool.Count} effects ({removedCount} disabled).");
+    }
+
+    public override void OnModLoad()
+    {
+        LoadMasterPool();
     }
 
     public override void Unload()

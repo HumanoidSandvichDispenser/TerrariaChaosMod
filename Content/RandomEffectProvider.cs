@@ -9,11 +9,12 @@ public class RandomEffectProvider : IEffectProvider
 
     public bool CanProvide => true;
 
-    private IReadOnlySet<Effects.Effect> _effectPool;
+    private HashSet<Effects.Effect> _effectPool;
 
     public void ReinitializePool(IReadOnlySet<Effects.Effect> effectPool)
     {
-        _effectPool = effectPool;
+        _effectPool = effectPool.ToHashSet();
+        _effectPool.RemoveWhere(effect => !effect.ShouldIncludeInPool(_effectPool));
     }
 
     public Effects.Effect GetEffect()

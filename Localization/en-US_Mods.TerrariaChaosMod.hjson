@@ -86,5 +86,10 @@ Configs: {
 			Label: Enable Probabilistic Voting
 			Tooltip: Enables probabilistic voting where effects with more votes have a higher chance of being selected. If off, enables deterministic voting where the effect with the most votes is always selected.
 		}
+
+		DisabledEffects: {
+			Label: Disabled Effects
+			Tooltip: Separate multiple effect names with commas. Effects listed here will not be applied during gameplay.
+		}
 	}
 }

@@ -1,11 +1,12 @@
 using System.ComponentModel;
+using Terraria.ModLoader;
 using Terraria.ModLoader.Config;
 
 namespace TerrariaChaosMod.Content;
 
 public class ChaosModConfig : ModConfig
 {
-    public override ConfigScope Mode => ConfigScope.ClientSide;
+    public override ConfigScope Mode => ConfigScope.ServerSide;
 
     [Label("Enable Twitch Voting")]
     [Tooltip("Allows viewers to vote for effects via chat messages.")]
@@ -20,4 +21,16 @@ public class ChaosModConfig : ModConfig
     [Label("Enable Probabilistic Voting")]
     [Tooltip("Enables probabilistic voting where effects with more votes have a higher chance of being selected. If off, enables deterministic voting where the effect with the most votes is always selected.")]
     public bool EnableProbabilisticVoting = true;
+
+    [Label("Disabled Effects")]
+    [Tooltip("Separate multiple effect names with commas. Effects listed here will not be applied during gameplay.")]
+    [DefaultValue("")]
+    public string DisabledEffects = "";
+
+    public override void OnChanged()
+    {
+        base.OnChanged();
+        var chaosSystem = ModContent.GetInstance<ChaosEffectsSystem>();
+        chaosSystem?.LoadMasterPool();
+    }
 }

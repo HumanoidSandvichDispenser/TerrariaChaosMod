@@ -29,7 +29,11 @@ public abstract class Effect : ModType, ILocalizedModType, ICloneable
 
     private Dictionary<int, Action> _scheduledActions = new();
 
-    public virtual bool Conditions()
+    /// <summary>
+    /// Condition to check whether or not the effect can be added to the effect
+    /// pool.
+    /// </summary>
+    public virtual bool ShouldIncludeInPool(ICollection<Effect> pool)
     {
         return true;
     }

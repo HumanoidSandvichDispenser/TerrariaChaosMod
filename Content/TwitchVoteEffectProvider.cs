@@ -18,6 +18,8 @@ public class TwitchVoteEffectProvider : IEffectProvider
 
     private Effects.Effect[] _votingPool = new Effects.Effect[3];
 
+    public IReadOnlyList<Effects.Effect> VotingPool => _votingPool;
+
     private int[] _votes = new int[3];
 
     public int VoteNumberOffset { get; private set; } = 0;
@@ -87,31 +89,43 @@ public class TwitchVoteEffectProvider : IEffectProvider
 
     private void SetupVotingPool()
     {
-        var crash = ModContent.GetInstance<RealCrashEffect>();
-
         _randomPool.Clear();
         _randomPool.UnionWith(_effectsList);
-        _randomPool.Add(crash);
 
         var rand = new System.Random();
 
         const int TAKE_N = 3;
 
-        _votingPool = Enumerable
-            .Range(0, _effectsList.Count)
-            .OrderBy(x => rand.Next())
-            .Take(TAKE_N)
-            .Select(x => _effectsList.ElementAt(x))
-            .ToArray();
+        while (_votingPool.Count(e => e is not null) < TAKE_N)
+        {
+            // pick a random effect from the effect list
+            var effect = _effectsList.ElementAt(rand.Next(0, _effectsList.Count));
 
+            // only add the effect if it is not already in the voting pool,
+            // and it satisfies its condition for inclusion
+            if (!_votingPool.Contains(effect) && effect.ShouldIncludeInPool(_votingPool))
+            {
+                _votingPool[_votingPool.Count(e => e is not null)] = effect;
+            }
+        }
+
+        // remove all effects in the voting pool from the random pool
         foreach (var effect in _votingPool)
         {
             _randomPool.Remove(effect);
         }
 
-        // real crash can be voted for, but not randomly selected
-        _randomPool.Remove(crash);
+        // remove all effects from random pool that do not satisfy its
+        // condition for inclusion
+        foreach (var effect in _effectsList)
+        {
+            if (!effect.ShouldIncludeInPool(_randomPool))
+            {
+                _randomPool.Remove(effect);
+            }
+        }
 
+        // reset votes
         for (int i = 0; i < _votes.Length; i++)
         {
             _votes[i] = 0;
