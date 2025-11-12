@@ -31,6 +31,10 @@ public sealed class EffectPlayer : ModPlayer
 
     public bool DequeueControls = false;
 
+    public float SpawnRateMultiplier = 1f;
+
+    public float MaxSpawnsMultiplier = 1f;
+
     public struct MovementState
     {
         public bool ControlLeft;
@@ -66,6 +70,8 @@ public sealed class EffectPlayer : ModPlayer
         TemporaryMediumcore = false;
         EveryChestIsTrapped = true;
         IsNoHitRunActive = false;
+        SpawnRateMultiplier = 1f;
+        MaxSpawnsMultiplier = 1f;
     }
 
     public override void GetHealLife(Item item, bool quickHeal, ref int healValue)
@@ -193,5 +199,13 @@ public sealed class EffectPlayer : ModPlayer
         }
 
         base.SetControls();
+    }
+}
+
+public static class PlayerExtensions
+{
+    public static EffectPlayer GetEffectPlayer(this Player player)
+    {
+        return player.GetModPlayer<EffectPlayer>();
     }
 }

@@ -51,6 +51,8 @@ Effects: {
 	PacifistRunEffect.DisplayName: Pacifist Run
 	SpawnEmpressOfLightEffect.DisplayName: Spawn Empress of Light
 	CloudGamingEffect.DisplayName: Cloud Gaming
+	IncreasedSpawnRateEffect.DisplayName: Increased Spawn Rate
+	MaxSpawnRateEffect.DisplayName: Max Spawn Rate
 }
 
 Buffs: {
