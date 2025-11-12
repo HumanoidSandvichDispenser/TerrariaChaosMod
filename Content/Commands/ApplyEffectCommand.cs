@@ -30,18 +30,20 @@ public class ApplyEffectCommand : ModCommand
         }
         else
         {
-            string effectName = args[0];
-            var dict = effectSystem.EffectDictionary;
+            foreach (var effectName in args)
+            {
+                var dict = effectSystem.EffectDictionary;
 
-            if (dict.TryGetValue(effectName, out var foundEffect))
-            {
-                var effect = foundEffect.Clone() as Effects.Effect;
-                effectSystem.EffectsToApply.Enqueue(effect);
-                caller.Reply($"Applied {effect.Name}", Color.Teal);
-            }
-            else
-            {
-                caller.Reply($"Effect \"{effectName}\" not found", Color.Red);
+                if (dict.TryGetValue(effectName, out var foundEffect))
+                {
+                    var effect = foundEffect.Clone() as Effects.Effect;
+                    effectSystem.EffectsToApply.Enqueue(effect);
+                    caller.Reply($"Applied {effect.Name}", Color.Teal);
+                }
+                else
+                {
+                    caller.Reply($"Effect \"{effectName}\" not found", Color.Red);
+                }
             }
         }
     }

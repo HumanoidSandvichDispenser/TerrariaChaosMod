@@ -1,11 +1,8 @@
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using Terraria.ModLoader;
 using TerrariaChaosMod.Content.Effects;
-using ItemEffects = TerrariaChaosMod.Content.Effects.ItemEffects;
-using PlayerEffects = TerrariaChaosMod.Content.Effects.PlayerEffects;
-using VisualEffects = TerrariaChaosMod.Content.Effects.VisualEffects;
-using SpawnEffects = TerrariaChaosMod.Content.Effects.SpawnEffects;
 
 namespace TerrariaChaosMod.Content;
 
@@ -19,10 +16,16 @@ public partial class ChaosEffectsSystem : ModSystem
 
     public float DurationMultiplier { get; set; } = 1f;
 
+    // all effects defined in the mod
+    private HashSet<Effect> _allEffects;
+
     private HashSet<Effect> _effectPool;
 
     private Dictionary<string, Effect> _effectDictionary = new();
 
+    /// <summary>
+    /// All enabled effects in the mod.
+    /// </summary>
     public IReadOnlySet<Effect> EffectPool => _effectPool;
 
     public IReadOnlyDictionary<string, Effect> EffectDictionary => _effectDictionary;
@@ -47,50 +50,73 @@ public partial class ChaosEffectsSystem : ModSystem
         CurrentEffectProvider = TwitchVoteEffectProvider;
     }
 
+    private void LoadAllEffects()
+    {
+        _allEffects = new HashSet<Effects.Effect>();
+
+        var effectType = typeof(Effects.Effect);
+        var assembly = effectType.Assembly;
+        var effectTypes = assembly.GetTypes()
+            .Where(t => t.IsSubclassOf(effectType) && !t.IsAbstract);
+
+        foreach (var type in effectTypes)
+        {
+            var method = typeof(ModContent)
+                .GetMethod(nameof(ModContent.GetInstance))
+                .MakeGenericMethod(type);
+
+            var defaultInstance = method.Invoke(null, null) as Effects.Effect;
+            _allEffects.Add(defaultInstance);
+        }
+    }
+
+    private void PopulateEffectDictionary()
+    {
+        _effectDictionary.Clear();
+        foreach (var effect in _effectPool)
+        {
+            var names = new HashSet<string>();
+            names.Add(effect.Name);
+            names.Add(effect.DisplayName.ToString());
+
+            // also add names with/without "Effect" suffix
+            foreach (var name in names.ToList())
+            {
+                const string suffix = "Effect";
+                if (name.EndsWith(suffix))
+                {
+                    names.Add(name.Substring(0, name.Length - suffix.Length));
+                }
+                else
+                {
+                    names.Add(name + suffix);
+                }
+            }
+
+            // add all lowercase variants
+            foreach (var name in names.ToList())
+            {
+                names.Add(name.ToLowerInvariant());
+            }
+
+            // finally add all names to dictionary to point to this effect
+            foreach (var name in names.ToList())
+            {
+                if (!_effectDictionary.ContainsKey(name))
+                {
+                    _effectDictionary[name] = effect;
+                }
+            }
+        }
+    }
+
     /// <summary>
     /// Loads the master pool of chaos effects, removing any that are disabled
     /// in config. Also initializes the effect providers with the new pool.
     /// </summary>
     public void LoadMasterPool()
     {
-        _effectPool = new HashSet<Effects.Effect>()
-        {
-            ModContent.GetInstance<ItemEffects.ReforgeEffect>(),
-            ModContent.GetInstance<ItemEffects.LargeItemsEffect>(),
-            ModContent.GetInstance<ItemEffects.EatDaPooPooEffect>(),
-            ModContent.GetInstance<ItemEffects.SwitchToRandomLoadoutEffect>(),
-            ModContent.GetInstance<ItemEffects.RagsToRichesEffect>(),
-            ModContent.GetInstance<ItemEffects.RichesToRagsEffect>(),
-
-            ModContent.GetInstance<PlayerEffects.AllCritsEffect>(),
-            ModContent.GetInstance<PlayerEffects.PowerPlayEffect>(),
-            ModContent.GetInstance<PlayerEffects.KillPlayerEffect>(),
-            ModContent.GetInstance<PlayerEffects.BoostBrakingEffect>(),
-            ModContent.GetInstance<PlayerEffects.SpaceProgramEffect>(),
-            ModContent.GetInstance<PlayerEffects.SidewaysGravityEffect>(),
-            ModContent.GetInstance<PlayerEffects.ExtremeSniperScopeEffect>(),
-            ModContent.GetInstance<PlayerEffects.MovementSpeed5xEffect>(),
-            ModContent.GetInstance<PlayerEffects.SlowAccelerationEffect>(),
-            ModContent.GetInstance<PlayerEffects.IgnitePlayerEffect>(),
-            ModContent.GetInstance<PlayerEffects.TemporaryMediumcoreEffect>(),
-            ModContent.GetInstance<PlayerEffects.NoIFramesEffect>(),
-            ModContent.GetInstance<PlayerEffects.ButteryShoesEffect>(),
-            ModContent.GetInstance<PlayerEffects.NoHitRunEffect>(),
-            ModContent.GetInstance<PlayerEffects.PacifistRunEffect>(),
-            ModContent.GetInstance<PlayerEffects.CloudGamingEffect>(),
-
-            ModContent.GetInstance<VisualEffects.RealCrashEffect>(),
-            ModContent.GetInstance<VisualEffects.FakeCrashEffect>(),
-            ModContent.GetInstance<VisualEffects.ConstantMapEffect>(),
-            ModContent.GetInstance<VisualEffects.HelenKellerEffect>(),
-            ModContent.GetInstance<VisualEffects.RollCreditsEffect>(),
-            ModContent.GetInstance<VisualEffects.FakeLagEffect>(),
-            ModContent.GetInstance<VisualEffects.InvertColorsEffect>(),
-            ModContent.GetInstance<VisualEffects.RainbowEffect>(),
-            ModContent.GetInstance<VisualEffects.LHeroineEffect>(),
-
-            ModContent.GetInstance<SpawnEffects.SpawnEmpressOfLightEffect>(),
-        };
+        _effectPool = new HashSet<Effect>(_allEffects);
 
         // ensure no elements are null
         _effectPool.RemoveWhere(effect => effect is null);
@@ -107,20 +133,26 @@ public partial class ChaosEffectsSystem : ModSystem
         int removedCount = _effectPool
             .RemoveWhere(effect => disabledEffects.Contains(effect.Name));
 
-        foreach (var effect in _effectPool)
-        {
-            _effectDictionary[effect.Name] = effect;
-        }
+        PopulateEffectDictionary();
 
         RandomEffectProvider.ReinitializePool(_effectPool);
         TwitchVoteEffectProvider.ReinitializePool(_effectPool);
 
-        Terraria.Main.NewText("Loaded chaos effect pool with " +
-            $"{_effectPool.Count} effects ({removedCount} disabled).");
+        DisplayLoadStatus();
+    }
+
+    private void DisplayLoadStatus()
+    {
+        StringBuilder sb = new();
+        sb.Append("[Chaos Mod] Loaded effect pool ");
+        sb.AppendFormat("with {0} effects enabled, ", _effectPool.Count);
+        sb.AppendFormat("{0} effects disabled", _allEffects.Count - _effectPool.Count);
+        Terraria.Main.NewText(sb.ToString(), 40, 225, 180);
     }
 
     public override void OnModLoad()
     {
+        LoadAllEffects();
         LoadMasterPool();
     }
 
@@ -131,6 +163,7 @@ public partial class ChaosEffectsSystem : ModSystem
 
     public override void OnWorldLoad()
     {
+        DisplayLoadStatus();
         _tickCounter = 25 * 60;
     }
 
@@ -144,6 +177,11 @@ public partial class ChaosEffectsSystem : ModSystem
         if (!IsEnabled || !CurrentEffectProvider.IsReady)
         {
             return;
+        }
+
+        if (_tickCounter % 60 == 0)
+        {
+            TwitchVoteEffectProvider?.BroadcastTally();
         }
 
         if (_tickCounter >= _votingDuration)
