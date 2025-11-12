@@ -1,5 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
+using System.Text.Json;
 using Terraria.ModLoader;
 using TerrariaChaosMod.Content.Effects.VisualEffects;
 using TerrariaChaosMod.Integration;
@@ -20,11 +22,14 @@ public class TwitchVoteEffectProvider : IEffectProvider
 
     public IReadOnlyList<Effects.Effect> VotingPool => _votingPool;
 
-    private int[] _votes = new int[3];
+    private int[] _votes = new int[4];
 
     public int VoteNumberOffset { get; private set; } = 0;
 
     private Integration.TwitchChatReader _chatReader;
+
+    // for displaying vote results via websocket
+    private WebSocketServer _wsServer;
 
     public TwitchVoteEffectProvider()
     {
@@ -32,17 +37,21 @@ public class TwitchVoteEffectProvider : IEffectProvider
         _chatReader.OnMessageReceived += ChatReader_OnMessageReceived;
         _chatReader.OnConnected += ChatReader_OnConnected;
         _chatReader.OnJoinedChannel += ChatReader_OnConnected;
+
+        _wsServer = new Integration.WebSocketServer("http://localhost:8080/ws/");
     }
 
     ~TwitchVoteEffectProvider()
     {
         _chatReader.Disconnect();
+        _wsServer.Stop();
     }
 
     public void Connect(string channel)
     {
         _chatReader.JoinChannel(channel);
         IsReady = _chatReader.IsConnected;
+        _ = _wsServer.StartAsync();
     }
 
     public void Disconnect()
@@ -50,6 +59,36 @@ public class TwitchVoteEffectProvider : IEffectProvider
         _chatReader.LeaveAllChannels();
         IsReady = false;
         CanProvide = false;
+        _wsServer.Stop();
+    }
+
+    public void BroadcastTally()
+    {
+        if (!IsReady)
+        {
+            return;
+        }
+
+        int sum = _votes.Sum();
+        List<TwitchVoteData.VoteOption> options = new();
+
+        int i;
+        for (i = 0; i < _votingPool.Length; i++)
+        {
+            string effectName = _votingPool[i].DisplayName.Value;
+            int votes = _votes[i];
+
+            float proportion = sum > 0 ? (float)votes / sum : 0;
+            options.Add(new TwitchVoteData.VoteOption(effectName, proportion));
+        }
+
+        // add random option
+        float randomProportion = sum > 0 ? (float)_votes[i] / sum : 0;
+        options.Add(new("Random Effect", randomProportion));
+
+        TwitchVoteData data = new(options.ToArray());
+
+        _ = _wsServer.BroadcastAsync(JsonSerializer.Serialize(data));
     }
 
     private void ChatReader_OnMessageReceived(object sender, CommonMessageArgs e)
@@ -91,8 +130,9 @@ public class TwitchVoteEffectProvider : IEffectProvider
     {
         _randomPool.Clear();
         _randomPool.UnionWith(_effectsList);
+        _votingPool = new Effects.Effect[_votes.Length - 1];
 
-        var rand = new System.Random();
+        var rand = Terraria.Main.rand;
 
         const int TAKE_N = 3;
 
@@ -143,7 +183,7 @@ public class TwitchVoteEffectProvider : IEffectProvider
     {
         int index = voteNumber - VoteNumberOffset - 1;
 
-        if (index < 0 || index >= _votingPool.Length)
+        if (index < 0 || index >= _votes.Length)
         {
             return;
         }
