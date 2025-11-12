@@ -50,9 +50,11 @@ Effects: {
 	NoHitRunEffect.DisplayName: No Hit Run
 	PacifistRunEffect.DisplayName: Pacifist Run
 	SpawnEmpressOfLightEffect.DisplayName: Spawn Empress of Light
+	TeleportAllNpcsEffect.DisplayName: Teleport All NPCs to Player
 	CloudGamingEffect.DisplayName: Cloud Gaming
 	IncreasedSpawnRateEffect.DisplayName: Increased Spawn Rate
 	MaxSpawnRateEffect.DisplayName: Max Spawn Rate
+	RegenerateBossHealthEffect.DisplayName: Regenerate Boss Health
 }
 
 Buffs: {
