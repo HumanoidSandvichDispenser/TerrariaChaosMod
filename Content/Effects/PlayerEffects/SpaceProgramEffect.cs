@@ -103,4 +103,12 @@ public class SpaceProgramEffect : Effect
         _previousPosition = player.position.Y;
         base.PostUpdate(player);
     }
+
+    public override bool ShouldApplyNow(Player player)
+    {
+        // only apply if player is below space height,
+        // and not dead
+
+        return player.position.Y > SpaceHeight && !player.dead;
+    }
 }
