@@ -27,6 +27,14 @@ public class WebSocketServer
         _listener.Prefixes.Add(uriPrefix);
     }
 
+    private void HandlePreflight(HttpListenerResponse response)
+    {
+        response.AddHeader("Access-Control-Allow-Origin", "*");
+        response.AddHeader("Access-Control-Allow-Headers", "Content-Type");
+        response.AddHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
+        response.StatusCode = 204;
+    }
+
     public async Task StartAsync()
     {
         _listener.Start();
@@ -35,6 +43,13 @@ public class WebSocketServer
         while (!_cts.Token.IsCancellationRequested)
         {
             var context = await _listener.GetContextAsync();
+
+            if (context.Request.HttpMethod == "OPTIONS")
+            {
+                HandlePreflight(context.Response);
+                context.Response.Close();
+                continue;
+            }
 
             if (context.Request.IsWebSocketRequest)
             {
@@ -48,10 +63,28 @@ public class WebSocketServer
         }
     }
 
-    public void Stop()
+    public async Task StopAsync()
     {
         _cts.Cancel();
-        _listener.Stop();
+
+        // close all client connections
+        foreach (var (id, socket) in _clients)
+        {
+            try
+            {
+                await socket.CloseAsync(
+                    WebSocketCloseStatus.NormalClosure,
+                    "Server shutting down",
+                    CancellationToken.None);
+            }
+            catch
+            {
+
+            }
+        }
+
+        _cts.Dispose();
+        _listener.Close();
     }
 
     private async Task HandleClientAsync(HttpListenerContext context)
@@ -72,7 +105,9 @@ public class WebSocketServer
             {
                 var result = await webSocket.ReceiveAsync(buffer, _cts.Token);
                 if (result.MessageType == WebSocketMessageType.Close)
+                {
                     break;
+                }
             }
         }
         catch (Exception ex)

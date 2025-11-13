@@ -50,4 +50,10 @@ public class ChaosModPlayer : ModPlayer
             effect.PostUpdate(Player);
         }
     }
+
+    public override void OnEnterWorld()
+    {
+        var effectsSystem = ModContent.GetInstance<ChaosEffectsSystem>();
+        effectsSystem.Startup();
+    }
 }

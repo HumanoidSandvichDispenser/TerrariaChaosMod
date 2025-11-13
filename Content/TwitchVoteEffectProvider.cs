@@ -28,43 +28,86 @@ public class TwitchVoteEffectProvider : IEffectProvider
 
     private Integration.TwitchChatReader _chatReader;
 
+    public string CurrentChannel => _chatReader?.CurrentChannel;
+
     // for displaying vote results via websocket
     private WebSocketServer _wsServer;
 
     public TwitchVoteEffectProvider()
     {
-        _chatReader = new Integration.TwitchChatReader();
-        _chatReader.OnMessageReceived += ChatReader_OnMessageReceived;
-        _chatReader.OnConnected += ChatReader_OnConnected;
-        _chatReader.OnJoinedChannel += ChatReader_OnConnected;
 
-        _wsServer = new Integration.WebSocketServer("http://localhost:8080/ws/");
     }
 
     ~TwitchVoteEffectProvider()
     {
-        _chatReader.Disconnect();
-        _wsServer.Stop();
+        DisconnectTwitch();
+        _ = StopWebSocket();
     }
 
-    public void Connect(string channel)
+    public void ConnectTwitch(string channelName)
     {
-        _chatReader.JoinChannel(channel);
+        if (_chatReader is null)
+        {
+            _chatReader = new Integration.TwitchChatReader();
+            _chatReader.OnMessageReceived += ChatReader_OnMessageReceived;
+            _chatReader.OnConnected += ChatReader_OnConnected;
+            _chatReader.OnJoinedChannel += ChatReader_OnConnected;
+        }
+
+        _chatReader.JoinChannel(channelName);
         IsReady = _chatReader.IsConnected;
+    }
+
+    public void DisconnectTwitch()
+    {
+        IsReady = false;
+        CanProvide = false;
+
+        if (_chatReader is not null)
+        {
+            _chatReader.LeaveAllChannels();
+            _chatReader.Disconnect();
+            _chatReader.OnMessageReceived -= ChatReader_OnMessageReceived;
+            _chatReader.OnConnected -= ChatReader_OnConnected;
+            _chatReader.OnJoinedChannel -= ChatReader_OnConnected;
+        }
+
+        _chatReader = null;
+    }
+
+    public void StartWebSocket()
+    {
+        if (_wsServer is null)
+        {
+            _wsServer = new("http://localhost:9091/ws/");
+        }
+
+        if (_wsServer.IsRunning)
+        {
+            return;
+        }
+
         _ = _wsServer.StartAsync();
     }
 
-    public void Disconnect()
+    public async System.Threading.Tasks.Task StopWebSocket()
     {
-        _chatReader.LeaveAllChannels();
-        IsReady = false;
-        CanProvide = false;
-        _wsServer.Stop();
+        if (_wsServer?.IsRunning ?? false)
+        {
+            await _wsServer.StopAsync();
+        }
+        _wsServer = null;
     }
 
-    public void BroadcastTally()
+    public async System.Threading.Tasks.Task RestartWebSocket()
     {
-        if (!IsReady)
+        await StopWebSocket();
+        StartWebSocket();
+    }
+
+    public async void BroadcastTally(bool voteStarted = false)
+    {
+        if (!IsReady || _wsServer is null)
         {
             return;
         }
@@ -79,14 +122,15 @@ public class TwitchVoteEffectProvider : IEffectProvider
             int votes = _votes[i];
 
             float proportion = sum > 0 ? (float)votes / sum : 0;
-            options.Add(new TwitchVoteData.VoteOption(effectName, proportion));
+            int number = i + 1 + VoteNumberOffset;
+            options.Add(new(number, effectName, proportion));
         }
 
         // add random option
-        float randomProportion = sum > 0 ? (float)_votes[i] / sum : 0;
-        options.Add(new("Random Effect", randomProportion));
+        float randomProportion = sum > 0 ? (float)_votes[i] / sum : 1;
+        options.Add(new(i + 1 + VoteNumberOffset, "Random Effect", randomProportion));
 
-        TwitchVoteData data = new(options.ToArray());
+        TwitchVoteData data = new(options.ToArray(), voteStarted);
 
         _ = _wsServer.BroadcastAsync(JsonSerializer.Serialize(data));
     }
@@ -124,6 +168,20 @@ public class TwitchVoteEffectProvider : IEffectProvider
         _effectsList = effectPool;
         SetupVotingPool();
         CanProvide = true;
+        
+        // broadcast tally to notify overlay of new vote
+        BroadcastTally(true);
+
+        // if config enables it, display voting options in-game chat
+        if (ModContent.GetInstance<ChaosModConfig>().AnnounceNewVoteInChat)
+        {
+            StringBuilder sb = new("New chaos vote started!\n");
+            sb.AppendJoin(
+                "\n",
+                _votingPool.Select((e, i) => $"{i + 1 + VoteNumberOffset}. {e.DisplayName}"));
+            sb.Append($"\n{4 + VoteNumberOffset}. Random Effect");
+            Terraria.Main.NewText(sb.ToString());
+        }
     }
 
     private void SetupVotingPool()
@@ -172,11 +230,6 @@ public class TwitchVoteEffectProvider : IEffectProvider
         }
 
         VoteNumberOffset = (VoteNumberOffset == 0) ? 4 : 0;
-
-        string text = "New chaos vote started!\n";
-        text += string.Join("\n", _votingPool.Select((e, i) => $"{i + 1 + VoteNumberOffset}. {e.DisplayName}"));
-        text += $"\n{4 + VoteNumberOffset}. Random Effect";
-        Terraria.Main.NewText(text);
     }
 
     private void TallyVote(int voteNumber)

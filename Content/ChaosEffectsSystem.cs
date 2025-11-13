@@ -158,18 +158,44 @@ public partial class ChaosEffectsSystem : ModSystem
 
     public override void Unload()
     {
-        TwitchVoteEffectProvider?.Disconnect();
+        TwitchVoteEffectProvider?.DisconnectTwitch();
+        _ = TwitchVoteEffectProvider?.StopWebSocket();
     }
 
     public override void OnWorldLoad()
     {
+        //Startup();
+    }
+
+    public void Startup()
+    {
         DisplayLoadStatus();
-        _tickCounter = 25 * 60;
+        _tickCounter = 0;
+
+        var config = ModContent.GetInstance<ChaosModConfig>();
+        string channelName = config.TwitchChannelName.Trim();
+        bool enableVoting = config.EnableTwitchVoting;
+
+        if (enableVoting)
+        {
+            Terraria.Main.NewText("[Chaos Mod] Starting Twitch voting system...", 40, 225, 180);
+            if (!string.IsNullOrEmpty(channelName))
+            {
+                TwitchVoteEffectProvider.ConnectTwitch(channelName);
+                TwitchVoteEffectProvider.StartWebSocket();
+            }
+            else
+            {
+                Terraria.Main.NewText("[Chaos Mod] Twitch channel name is not set in config. Use /connect to connect to a channel and /ws to start the WebSocket server.", 255, 50, 50);
+            }
+        }
+
     }
 
     public override void OnWorldUnload()
     {
-        TwitchVoteEffectProvider.Disconnect();
+        TwitchVoteEffectProvider.DisconnectTwitch();
+        _ = TwitchVoteEffectProvider.StopWebSocket();
     }
 
     public override void PreUpdateWorld()

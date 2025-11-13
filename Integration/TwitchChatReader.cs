@@ -22,6 +22,21 @@ public class TwitchChatReader
 
     public event EventHandler<CommonReadyArgs> OnJoinedChannel;
 
+    public string CurrentChannel
+    {
+        get
+        {
+            if (_client.JoinedChannels.Count > 0)
+            {
+                return _client.JoinedChannels[0].Channel;
+            }
+            else
+            {
+                return null;
+            }
+        }
+    }
+
     public TwitchChatReader()
     {
         _client = new();
