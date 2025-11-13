@@ -55,6 +55,9 @@ Effects: {
 	IncreasedSpawnRateEffect.DisplayName: Increased Spawn Rate
 	MaxSpawnRateEffect.DisplayName: Max Spawn Rate
 	RegenerateBossHealthEffect.DisplayName: Regenerate Boss Health
+	SpawnDungeonGuardianEffect.DisplayName: Spawn Dungeon Guardian Effect
+	SpawnKingSlimeEffect.DisplayName: Spawn King Slime Effect
+	SpawnGuideEffect.DisplayName: Spawn Guide Effect
 }
 
 Buffs: {
