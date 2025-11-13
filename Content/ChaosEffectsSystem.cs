@@ -76,8 +76,11 @@ public partial class ChaosEffectsSystem : ModSystem
         foreach (var effect in _effectPool)
         {
             var names = new HashSet<string>();
+            string displayName = effect.DisplayName
+                .ToString()
+                .Replace(" ", "");
             names.Add(effect.Name);
-            names.Add(effect.DisplayName.ToString());
+            names.Add(displayName);
 
             // also add names with/without "Effect" suffix
             foreach (var name in names.ToList())
