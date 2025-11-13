@@ -41,7 +41,6 @@ Effects: {
 	TemporaryMediumcoreEffect.DisplayName: Temporary Mediumcore
 	RichesToRagsEffect.DisplayName: Riches To Rags Effect
 	AFKEffect.DisplayName: A F K Effect
-	DoubleEffectDurationEffect.DisplayName: Double Effect Duration Effect
 	InvertColorsEffect.DisplayName: Invert Colors
 	RainbowEffect.DisplayName: Rainbow
 	LHeroineEffect.DisplayName: L'Heroine
@@ -58,6 +57,9 @@ Effects: {
 	SpawnDungeonGuardianEffect.DisplayName: Spawn Dungeon Guardian Effect
 	SpawnKingSlimeEffect.DisplayName: Spawn King Slime Effect
 	SpawnGuideEffect.DisplayName: Spawn Guide Effect
+	CheatCodeVotingEffect.DisplayName: Cheat Code Voting
+	ComboMetaEffect.DisplayName: Combo (Meta)
+	OmegaComboMetaEffect.DisplayName: Omega Combo (Meta)
 }
 
 Buffs: {

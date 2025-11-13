@@ -33,6 +33,8 @@ public class TwitchVoteEffectProvider : IEffectProvider
     // for displaying vote results via websocket
     private WebSocketServer _wsServer;
 
+    public event System.EventHandler<Integration.CommonMessageArgs> OnChatMessageReceived;
+
     public TwitchVoteEffectProvider()
     {
 
@@ -151,6 +153,8 @@ public class TwitchVoteEffectProvider : IEffectProvider
                 TallyVote(voteNumber);
             }
         }
+
+        OnChatMessageReceived?.Invoke(this, e);
     }
 
     private void ChatReader_OnConnected(object sender, CommonReadyArgs e)

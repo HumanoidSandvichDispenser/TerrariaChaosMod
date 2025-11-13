@@ -228,7 +228,7 @@ public partial class ChaosEffectsSystem : ModSystem
             CurrentEffectProvider.ReinitializePool(_effectPool);
         }
 
-        _tickCounter++;
+        _tickCounter += (int)DurationMultiplier;
     }
 
     public void ApplyEffect(Effect effect)
