@@ -123,15 +123,13 @@ public partial class ChaosEffectsSystem : ModSystem
 
         // disable effects if listed in config
         var config = ModContent.GetInstance<ChaosModConfig>();
-        HashSet<string> disabledEffects = config.DisabledEffects
-            .Split(',')
+        IEnumerable<string> disabledEffects = config.DisabledEffects
             .Select(s => s.Trim())
-            .Where(s => !string.IsNullOrEmpty(s))
-            .ToHashSet();
+            .Where(s => !string.IsNullOrEmpty(s));
 
         // remove disabled effects from pool
         int removedCount = _effectPool
-            .RemoveWhere(effect => disabledEffects.Contains(effect.Name));
+            .RemoveWhere(eff => disabledEffects.Any(d => eff.Matches(d)));
 
         PopulateEffectDictionary();
 
@@ -143,10 +141,16 @@ public partial class ChaosEffectsSystem : ModSystem
 
     private void DisplayLoadStatus()
     {
+        var disabledEffects = _allEffects
+            .Where(eff => eff is not null && !_effectPool.Contains(eff))
+            .Select(eff => eff.DisplayName);
+
         StringBuilder sb = new();
         sb.Append("[Chaos Mod] Loaded effect pool ");
         sb.AppendFormat("with {0} effects enabled, ", _effectPool.Count);
-        sb.AppendFormat("{0} effects disabled", _allEffects.Count - _effectPool.Count);
+        sb.AppendFormat("{0} effects disabled.\n", disabledEffects.Count());
+        sb.Append("List of disabled effects:\n");
+        sb.AppendJoin(", ", disabledEffects);
         Terraria.Main.NewText(sb.ToString(), 40, 225, 180);
     }
 

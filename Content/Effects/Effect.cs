@@ -33,10 +33,12 @@ public abstract class Effect : ModType, ILocalizedModType, ICloneable
     /// Condition to check whether or not the effect can be added to the effect
     /// pool.
     /// </summary>
-    public virtual bool ShouldIncludeInPool(ICollection<Effect> pool)
-    {
-        return true;
-    }
+    public virtual bool ShouldIncludeInPool(ICollection<Effect> pool) => true;
+
+    /// <summary>
+    /// Condition to check whether or not the effect should be applied now.
+    /// </summary>
+    public virtual bool ShouldApplyNow(Player player) => true;
 
     public Effect()
     {
@@ -129,5 +131,30 @@ public abstract class Effect : ModType, ILocalizedModType, ICloneable
         var clone = MemberwiseClone() as Effect;
         clone._scheduledActions = new();
         return clone;
+    }
+
+    public bool Matches(string name)
+    {
+        // match by Name or DisplayName, with or without "Effect" suffix,
+        // case-insensitive
+
+        const string suffix = "Effect";
+        string displayName = DisplayName.ToString();
+        string nameToCheck = name.EndsWith(suffix, StringComparison.OrdinalIgnoreCase)
+            ? name.Substring(0, name.Length - suffix.Length)
+            : name + suffix;
+        string displayNameToCheck = displayName.EndsWith(suffix, StringComparison.OrdinalIgnoreCase)
+            ? displayName.Substring(0, displayName.Length - suffix.Length)
+            : displayName + suffix;
+
+        var namesToMatch = new HashSet<string>()
+        {
+            Name.ToLower().Replace(" ", ""),
+            nameToCheck.ToLower().Replace(" ", ""),
+            DisplayName.ToString().ToLower().Replace(" ", ""),
+            displayNameToCheck.ToLower().Replace(" ", "")
+        };
+
+        return namesToMatch.Contains(name.ToLower());
     }
 }

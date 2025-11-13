@@ -9,11 +9,25 @@ namespace TerrariaChaosMod.Content;
 
 public class ChaosModPlayer : ModPlayer
 {
-    public HashSet<Effects.Effect> activeEffects = new HashSet<Effects.Effect>();
+    public HashSet<Effects.Effect> activeEffects = new();
+
+    private Queue<Effects.Effect> _waitingEffects = new();
 
     public override void ResetEffects()
     {
 
+    }
+
+    private void ApplyEffect(Effects.Effect effect)
+    {
+        activeEffects.Add(effect);
+        effect.ResetTime();
+        effect.ApplyEffect(Player);
+
+        // notify player with icon and text
+        string icon = $"[i:{ItemID.RainbowCursor}]";
+        var color = Color.MediumPurple;
+        Main.NewText($"{icon} New Effect: {effect.DisplayName}", color);
     }
 
     public override void PreUpdate()
@@ -22,14 +36,19 @@ public class ChaosModPlayer : ModPlayer
 
         while (effectsSystem.EffectsToApply.TryDequeue(out var effect))
         {
-            activeEffects.Add(effect);
-            effect.ResetTime();
-            effect.ApplyEffect(Player);
+            if (!effect.ShouldApplyNow(Player))
+            {
+                _waitingEffects.Enqueue(effect);
+                continue;
+            }
 
-            // notify player with icon and text
-            string icon = $"[i:{ItemID.RainbowCursor}]";
-            var color = Color.MediumPurple;
-            Main.NewText($"{icon} New Effect: {effect.DisplayName}", color);
+            ApplyEffect(effect);
+        }
+
+        // re-enqueue waiting effects for next tick
+        while (_waitingEffects.Count > 0)
+        {
+            effectsSystem.EffectsToApply.Enqueue(_waitingEffects.Dequeue());
         }
 
         foreach (var effect in activeEffects)
