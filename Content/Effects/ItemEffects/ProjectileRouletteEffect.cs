@@ -4,18 +4,15 @@ namespace TerrariaChaosMod.Content.Effects.ItemEffects;
 
 public class ProjectileRouletteEffect : Effect
 {
-    public override bool ShouldApplyNow(Player player)
+    public override void ApplyEffect(Player player)
     {
-        return player.GetModPlayer<PlayerEffects.EffectPlayer>()
-            .ProjectileRoulette
-            .Acquire();
+        AcquireLock(true);
+        base.ApplyEffect(player);
     }
 
     public override void CleanUp(Player player)
     {
-        player.GetModPlayer<PlayerEffects.EffectPlayer>()
-            .ProjectileRoulette
-            .Release();
+        ReleaseLock();
         base.CleanUp(player);
     }
 }

@@ -8,13 +8,13 @@ public class ButtbotEffect : Effect
 
     public override void ApplyEffect(Player player)
     {
-        ChaosModGlobalNPC.Buttbot.Acquire(true);
+        AcquireLock(true);
         base.ApplyEffect(player);
     }
 
     public override void CleanUp(Player player)
     {
-        ChaosModGlobalNPC.Buttbot.Release();
+        ReleaseLock();
         base.CleanUp(player);
     }
 }

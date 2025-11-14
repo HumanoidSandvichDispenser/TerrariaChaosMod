@@ -5,14 +5,15 @@ namespace TerrariaChaosMod.Content.Effects.PlayerEffects;
 
 public class TemporaryMediumcoreEffect : Effect
 {
-    public override void PostUpdate(Player player)
+    public override void ApplyEffect(Player player)
     {
-        player.GetModPlayer<EffectPlayer>().TemporaryMediumcore = true;
-        base.PostUpdate(player);
+        AcquireLock(true);
+        base.ApplyEffect(player);
     }
 
     public override void CleanUp(Player player)
     {
+        ReleaseLock();
         base.CleanUp(player);
     }
 }

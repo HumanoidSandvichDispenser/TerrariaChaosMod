@@ -157,4 +157,27 @@ public abstract class Effect : ModType, ILocalizedModType, ICloneable
 
         return namesToMatch.Contains(name.ToLower());
     }
+
+    /// <summary>
+    /// Attempts to acquire the effect lock.
+    /// </summary>
+    /// <param name="force">
+    /// If set to <c>true</c>, forces the acquisition of the lock, which treats
+    /// the lock as a semaphore. This is useful for effects that can stack.
+    /// </param>
+    protected bool AcquireLock(bool force = false)
+    {
+        return EffectLock.Of(GetType()).Acquire(force);
+    }
+
+    /// <summary>
+    /// Releases the effect lock.
+    /// </summary>
+    /// <exception cref="InvalidOperationException">
+    /// Thrown if the lock is released more times than it was acquired.
+    /// </exception>
+    protected void ReleaseLock()
+    {
+        EffectLock.Of(GetType()).Release();
+    }
 }

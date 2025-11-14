@@ -5,11 +5,6 @@ namespace TerrariaChaosMod.Content;
 
 public class ChaosModGlobalNPC : GlobalNPC
 {
-    /// <summary>
-    /// Semaphore to indicate whether Buttbot effect is active.
-    /// </summary>
-    public static Effects.EffectSemaphore Buttbot = new();
-
     public override void EditSpawnRate(Player player, ref int spawnRate, ref int maxSpawns)
     {
         var effectPlayer = player.GetModPlayer<Effects.PlayerEffects.EffectPlayer>();
@@ -21,7 +16,8 @@ public class ChaosModGlobalNPC : GlobalNPC
 
     public override void GetChat(NPC npc, ref string chat)
     {
-        for (int iteration = 0; iteration < Buttbot.Value; iteration++)
+        int value = Effects.EffectLock.Of<Effects.NPCEffects.ButtbotEffect>().Value;
+        for (int iteration = 0; iteration < value; iteration++)
         {
             // replace pseudorandom words with "butt"
             // if hash of each character of word modulo 5 is 0

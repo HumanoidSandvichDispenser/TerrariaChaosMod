@@ -104,17 +104,15 @@ public class SpaceProgramEffect : Effect
         base.PostUpdate(player);
     }
 
-    private static EffectSemaphore _lock = new EffectSemaphore();
-
     public override bool ShouldApplyNow(Player player)
     {
         // only apply if below space, not dead, and lock not already acquired
-        return _lock.Acquire() && player.position.Y > SpaceHeight && !player.dead;
+        return AcquireLock() && player.position.Y > SpaceHeight && !player.dead;
     }
 
     public override void CleanUp(Player player)
     {
-        _lock.Release();
+        ReleaseLock();
         base.CleanUp(player);
     }
 }

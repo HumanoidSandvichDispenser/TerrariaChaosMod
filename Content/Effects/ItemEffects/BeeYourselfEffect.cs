@@ -4,18 +4,15 @@ namespace TerrariaChaosMod.Content.Effects.ItemEffects;
 
 public class BeeYourselfEffect : Effect
 {
-    public override bool ShouldApplyNow(Player player)
+    public override void ApplyEffect(Player player)
     {
-        return player.GetModPlayer<PlayerEffects.EffectPlayer>()
-            .BeeYourself
-            .Acquire();
+        AcquireLock(true);
+        base.ApplyEffect(player);
     }
 
     public override void CleanUp(Player player)
     {
-        player.GetModPlayer<PlayerEffects.EffectPlayer>()
-            .BeeYourself
-            .Release();
+        ReleaseLock();
         base.CleanUp(player);
     }
 }

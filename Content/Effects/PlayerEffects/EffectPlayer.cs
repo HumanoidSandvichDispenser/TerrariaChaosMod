@@ -39,12 +39,6 @@ public sealed class EffectPlayer : ModPlayer
 
     public bool InsaneKnockback = false;
 
-    public EffectSemaphore ProjectileRoulette = new();
-    
-    public EffectSemaphore ProjectileDysfunction = new();
-
-    public EffectSemaphore BeeYourself = new();
-
     public struct MovementState
     {
         public bool ControlLeft;
@@ -187,7 +181,7 @@ public sealed class EffectPlayer : ModPlayer
         bool pvp,
         Terraria.DataStructures.PlayerDeathReason damageSource)
     {
-        if (TemporaryMediumcore)
+        if (EffectLock.Of<TemporaryMediumcoreEffect>().IsAcquired)
         {
             // drop all items
 
@@ -198,14 +192,14 @@ public sealed class EffectPlayer : ModPlayer
 
     public override void ModifyShootStats(Item item, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback)
     {
-        if (ProjectileRoulette.IsAcquired)
+        if (EffectLock.Of<ItemEffects.ProjectileRouletteEffect>().IsAcquired)
         {
             // pick a random projectile type
             int randomType = Main.rand.Next(1, ProjectileID.Count);
             type = randomType;
         }
 
-        if (ProjectileDysfunction.IsAcquired)
+        if (EffectLock.Of<ProjectileDysfunctionEffect>().IsAcquired)
         {
             // randomize velocity direction and magnitude
             float speed = velocity.Length();
@@ -216,7 +210,7 @@ public sealed class EffectPlayer : ModPlayer
                 randomSpeed * (float)System.Math.Sin(randomAngle));
         }
 
-        if (BeeYourself.IsAcquired)
+        if (EffectLock.Of<ItemEffects.BeeYourselfEffect>().IsAcquired)
         {
             // change projectile type to bee projectile
             type = ProjectileID.Bee;
