@@ -1,8 +1,8 @@
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.DataStructures;
 
 namespace TerrariaChaosMod.Content.Effects.PlayerEffects;
 
@@ -37,7 +37,13 @@ public sealed class EffectPlayer : ModPlayer
 
     public float MaxSpawnsMultiplier = 1f;
 
-    public bool HasStrongRecoil = false;
+    public bool InsaneKnockback = false;
+
+    public EffectSemaphore ProjectileRoulette = new();
+    
+    public EffectSemaphore ProjectileDysfunction = new();
+
+    public EffectSemaphore BeeYourself = new();
 
     public struct MovementState
     {
@@ -77,7 +83,7 @@ public sealed class EffectPlayer : ModPlayer
         AfkMode = false;
         SpawnRateMultiplier = 1f;
         MaxSpawnsMultiplier = 1f;
-        HasStrongRecoil = false;
+        InsaneKnockback = false;
     }
 
     public override void GetHealLife(Item item, bool quickHeal, ref int healValue)
@@ -157,12 +163,21 @@ public sealed class EffectPlayer : ModPlayer
 
     public override void OnHitNPCWithItem(Item item, NPC target, NPC.HitInfo hit, int damageDone)
     {
-        if (HasStrongRecoil)
+        if (InsaneKnockback)
         {
             // push the player in the opposite direction with increased force
             int hitDirection = hit.HitDirection;
             float knockback = hit.Knockback;
             Player.velocity.X -= hitDirection * knockback * 3f;
+        }
+    }
+
+    public override void ModifyWeaponKnockback(Item item, ref StatModifier knockback)
+    {
+        if (InsaneKnockback)
+        {
+            knockback += 512f;
+            knockback.Flat += 512f;
         }
     }
 
@@ -178,6 +193,33 @@ public sealed class EffectPlayer : ModPlayer
 
             Player.DropItems();
             Player.DropCoins();
+        }
+    }
+
+    public override void ModifyShootStats(Item item, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback)
+    {
+        if (ProjectileRoulette.IsAcquired)
+        {
+            // pick a random projectile type
+            int randomType = Main.rand.Next(1, ProjectileID.Count);
+            type = randomType;
+        }
+
+        if (ProjectileDysfunction.IsAcquired)
+        {
+            // randomize velocity direction and magnitude
+            float speed = velocity.Length();
+            float randomAngle = Main.rand.NextFloat(0, MathHelper.TwoPi);
+            float randomSpeed = Main.rand.NextFloat(0.1f * speed, 1.5f * speed);
+            velocity = new Vector2(
+                randomSpeed * (float)System.Math.Cos(randomAngle),
+                randomSpeed * (float)System.Math.Sin(randomAngle));
+        }
+
+        if (BeeYourself.IsAcquired)
+        {
+            // change projectile type to bee projectile
+            type = ProjectileID.Bee;
         }
     }
 

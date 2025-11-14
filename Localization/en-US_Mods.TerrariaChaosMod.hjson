@@ -65,6 +65,10 @@ Effects: {
 	CheatCodeVotingEffect.DisplayName: Cheat Code Voting
 	ComboMetaEffect.DisplayName: Combo (Meta)
 	OmegaComboMetaEffect.DisplayName: Omega Combo (Meta)
+	InsaneKnockbackEffect.DisplayName: Insane Knockback
+	ProjectileRouletteEffect.DisplayName: Projectile Roulette Effect
+	ProjectileDysfunctionEffect.DisplayName: Projectile Dysfunction Effect
+	BeeYourselfEffect.DisplayName: Bee Yourself Effect
 }
 
 Buffs: {
