@@ -5,12 +5,12 @@
 
 	<!-- General -->
 	<PropertyGroup>
-		
+
 	</PropertyGroup>
 
 	<!-- References -->
 	<ItemGroup>
-	  <PackageReference Include="TwitchLib" Version="3.5.3" />
+	    <PackageReference Include="TwitchLib" Version="3.5.3" />
 	</ItemGroup>
 
 </Project>
