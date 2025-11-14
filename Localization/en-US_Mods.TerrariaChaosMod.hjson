@@ -40,7 +40,7 @@ Effects: {
 	IgnitePlayerEffect.DisplayName: Ignite Player
 	TemporaryMediumcoreEffect.DisplayName: Temporary Mediumcore
 	RichesToRagsEffect.DisplayName: Riches To Rags Effect
-	AFKEffect.DisplayName: A F K Effect
+	AFKEffect.DisplayName: AFK
 	InvertColorsEffect.DisplayName: Invert Colors
 	RainbowEffect.DisplayName: Rainbow
 	LHeroineEffect.DisplayName: L'Heroine
@@ -57,6 +57,11 @@ Effects: {
 	SpawnDungeonGuardianEffect.DisplayName: Spawn Dungeon Guardian Effect
 	SpawnKingSlimeEffect.DisplayName: Spawn King Slime Effect
 	SpawnGuideEffect.DisplayName: Spawn Guide Effect
+	FloatingPointImprecisionEffect.DisplayName: Floating Point Imprecision Effect
+	ButtbotEffect.DisplayName: Buttbot Effect
+	SpawnTravelingMerchantEffect.DisplayName: Spawn Traveling Merchant Effect
+	ManaForHealthEffect.DisplayName: Mana For Health Effect
+	NoPotionSicknessEffect.DisplayName: No Potion Sickness Effect
 	CheatCodeVotingEffect.DisplayName: Cheat Code Voting
 	ComboMetaEffect.DisplayName: Combo (Meta)
 	OmegaComboMetaEffect.DisplayName: Omega Combo (Meta)
@@ -84,11 +89,6 @@ Configs: {
 		TwitchChannelName: {
 			Label: Twitch Channel Name
 			Tooltip: The name of the Twitch channel to connect to for voting.
-		}
-
-		DisallowedEffects: {
-			Label: Disallowed Effects
-			Tooltip: ""
 		}
 
 		EnableProbabilisticVoting: {

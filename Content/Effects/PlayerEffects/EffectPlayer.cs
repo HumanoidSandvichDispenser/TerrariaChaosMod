@@ -31,9 +31,13 @@ public sealed class EffectPlayer : ModPlayer
 
     public bool DequeueControls = false;
 
+    public bool AfkMode = false;
+
     public float SpawnRateMultiplier = 1f;
 
     public float MaxSpawnsMultiplier = 1f;
+
+    public bool HasStrongRecoil = false;
 
     public struct MovementState
     {
@@ -70,8 +74,10 @@ public sealed class EffectPlayer : ModPlayer
         TemporaryMediumcore = false;
         EveryChestIsTrapped = true;
         IsNoHitRunActive = false;
+        AfkMode = false;
         SpawnRateMultiplier = 1f;
         MaxSpawnsMultiplier = 1f;
+        HasStrongRecoil = false;
     }
 
     public override void GetHealLife(Item item, bool quickHeal, ref int healValue)
@@ -120,7 +126,9 @@ public sealed class EffectPlayer : ModPlayer
     {
         if (IsNoHitRunActive)
         {
-            modifiers.SourceDamage.Flat = Player.statLifeMax2;
+            Terraria.Main.NewText("No-Hit Run Failed!", 255, 0, 0);
+            modifiers.SourceDamage.Flat += Player.statLifeMax2;
+            modifiers.FinalDamage.Flat += Player.statLifeMax2;
         }
     }
 
@@ -145,6 +153,17 @@ public sealed class EffectPlayer : ModPlayer
     public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
     {
         ModifyOutgoingDamage(ref modifiers);
+    }
+
+    public override void OnHitNPCWithItem(Item item, NPC target, NPC.HitInfo hit, int damageDone)
+    {
+        if (HasStrongRecoil)
+        {
+            // push the player in the opposite direction with increased force
+            int hitDirection = hit.HitDirection;
+            float knockback = hit.Knockback;
+            Player.velocity.X -= hitDirection * knockback * 3f;
+        }
     }
 
     public override void Kill(
@@ -196,6 +215,22 @@ public sealed class EffectPlayer : ModPlayer
                 Player.controlMount = false;
                 Player.controlJump = false;
             }
+        }
+
+        if (AfkMode)
+        {
+            // disable all controls
+            Player.controlLeft = false;
+            Player.controlRight = false;
+            Player.controlUp = false;
+            Player.controlDown = false;
+            Player.controlUseItem = false;
+            Player.controlUseTile = false;
+            Player.controlHook = false;
+            Player.controlMount = false;
+            Player.controlJump = false;
+            Player.controlQuickHeal = false;
+            Player.controlQuickMana = false;
         }
 
         base.SetControls();
