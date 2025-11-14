@@ -1,6 +1,6 @@
 namespace TerrariaChaosMod.Content.Effects;
 
-public sealed class EffectSemaphore : Effect
+public sealed class EffectSemaphore
 {
     public int Value { get; private set; }
 
