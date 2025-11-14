@@ -17,6 +17,7 @@ public class ToggleChaosCommand : ModCommand
         effectSystem.IsEnabled = !effectSystem.IsEnabled;
         string status = effectSystem.IsEnabled ? "enabled" : "disabled";
         var color = effectSystem.IsEnabled ? Color.Green : Color.Red;
-        caller.Reply($"Chaos has been {status}.", color);
+        var text = $"Chaos effects have been {status}.";
+        caller.Reply(ChaosModLogger.GetLogText(log4net.Core.Level.Info, text));
     }
 }

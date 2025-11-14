@@ -15,10 +15,14 @@ public class TerrariaChaosMod : Mod
 
     public static Effect PaletteShaderEffect { get; private set; }
 
+    public static ChaosModLogger ChatLogger { get; private set; } = new(null!);
+
     public override void Load()
     {
         // This method is called when the mod is loaded.
         // You can use it to initialize any resources or settings your mod needs.
+
+        ChatLogger = new(this);
 
         if (!Main.dedServ)
         {

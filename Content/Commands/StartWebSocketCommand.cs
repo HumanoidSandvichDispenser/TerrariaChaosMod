@@ -15,23 +15,36 @@ public class StartWebSocketCommand : ModCommand
     public override void Action(CommandCaller caller, string input, string[] args)
     {
         var system = ModContent.GetInstance<ChaosEffectsSystem>();
-        caller.Reply("Starting WebSocket server.");
+        string cmd = args.Length > 0 ? args[0].ToLower() : "info";
 
-        switch (args.Length > 0 ? args[0].ToLower() : default)
+        if (cmd == "start")
         {
-            case "start":
-                caller.Reply("Starting WebSocket server.");
-                system.TwitchVoteEffectProvider?.StartWebSocket();
-                break;
-            case "stop":
-                caller.Reply("Stopping WebSocket server.");
-                system.TwitchVoteEffectProvider?.StopWebSocket();
-                break;
-            case "restart":
-            default:
-                caller.Reply("Restarting WebSocket server.");
-                system.TwitchVoteEffectProvider?.RestartWebSocket();
-                break;
+            system.TwitchVoteEffectProvider?.StartWebSocket();
         }
+        else if (cmd == "stop")
+        {
+            system.TwitchVoteEffectProvider?.StopWebSocket();
+        }
+        else if (cmd == "restart")
+        {
+            system.TwitchVoteEffectProvider?.RestartWebSocket();
+        }
+        else
+        {
+            caller.Reply("Usage: " + Usage);
+        }
+
+        //switch (cmd)
+        //{
+        //    case "start":
+        //        system.TwitchVoteEffectProvider?.StartWebSocket();
+        //        break;
+        //    case "stop":
+        //        system.TwitchVoteEffectProvider?.StopWebSocket();
+        //        break;
+        //    case "restart":
+        //        system.TwitchVoteEffectProvider?.RestartWebSocket();
+        //        break;
+        //}
     }
 }

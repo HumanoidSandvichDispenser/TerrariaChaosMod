@@ -79,15 +79,18 @@ public class TwitchVoteEffectProvider : IEffectProvider
 
     public void StartWebSocket()
     {
+        const string URI = "http://localhost:9091/ws/";
         if (_wsServer is null)
         {
-            _wsServer = new("http://localhost:9091/ws/");
+            _wsServer = new(URI);
         }
 
         if (_wsServer.IsRunning)
         {
             return;
         }
+
+        TerrariaChaosMod.ChatLogger.Info($"Starting WebSocket server at {URI}");
 
         _ = _wsServer.StartAsync();
     }
@@ -97,6 +100,7 @@ public class TwitchVoteEffectProvider : IEffectProvider
         if (_wsServer?.IsRunning ?? false)
         {
             await _wsServer.StopAsync();
+            TerrariaChaosMod.ChatLogger.Info($"Stopped WebSocket server");
         }
         _wsServer = null;
     }
@@ -161,7 +165,17 @@ public class TwitchVoteEffectProvider : IEffectProvider
     {
         // notify that we have connected to chat
 
-        Terraria.Main.NewText($"Connected to channel {e.ChannelName}");
+        //Terraria.Main.NewText($"Connected to channel {e.ChannelName}");
+        if (string.IsNullOrEmpty(e.ChannelName))
+        {
+            TerrariaChaosMod.ChatLogger
+                .Info("Connected to Twitch chat server.");
+        }
+        else
+        {
+            TerrariaChaosMod.ChatLogger
+                .Info($"Joined Twitch channel: {e.ChannelName}");
+        }
     }
 
     public void ReinitializePool(IReadOnlySet<Effects.Effect> effectPool)

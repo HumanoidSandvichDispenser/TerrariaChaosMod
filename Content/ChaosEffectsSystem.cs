@@ -151,12 +151,15 @@ public partial class ChaosEffectsSystem : ModSystem
         var disabledEffects = DisabledEffects
             .Select(eff => eff.DisplayName.ToString());
         StringBuilder sb = new();
-        sb.Append("[Chaos Mod] Loaded effect pool ");
+        sb.Append("Loaded effect pool ");
         sb.AppendFormat("with {0} effects enabled, ", _effectPool.Count);
-        sb.AppendFormat("{0} effects disabled.\n", disabledEffects.Count());
+        sb.AppendFormat("{0} effects disabled.", disabledEffects.Count());
+        TerrariaChaosMod.ChatLogger.Info(sb.ToString());
+        sb.Clear();
+
         sb.Append("List of disabled effects:\n");
         sb.AppendJoin(", ", disabledEffects);
-        Terraria.Main.NewText(sb.ToString(), 40, 225, 180);
+        TerrariaChaosMod.ChatLogger.Info(sb.ToString());
     }
 
     public override void OnModLoad()
@@ -188,7 +191,7 @@ public partial class ChaosEffectsSystem : ModSystem
 
         if (enableVoting)
         {
-            Terraria.Main.NewText("[Chaos Mod] Starting Twitch voting system...", 40, 225, 180);
+            TerrariaChaosMod.ChatLogger.Info("Starting Twitch voting system...");
             if (!string.IsNullOrEmpty(channelName))
             {
                 TwitchVoteEffectProvider.ConnectTwitch(channelName);
@@ -196,7 +199,7 @@ public partial class ChaosEffectsSystem : ModSystem
             }
             else
             {
-                Terraria.Main.NewText("[Chaos Mod] Twitch channel name is not set in config. Use /connect to connect to a channel and /ws to start the WebSocket server.", 255, 50, 50);
+                TerrariaChaosMod.ChatLogger.Warn("Twitch channel name is not set in config. Use /connect to connect to a channel and /ws to start the WebSocket server.");
             }
         }
 

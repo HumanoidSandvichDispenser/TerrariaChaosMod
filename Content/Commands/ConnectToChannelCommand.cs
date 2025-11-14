@@ -16,16 +16,23 @@ public class ConnectToChannelCommand : ModCommand
     public override void Action(CommandCaller caller, string input, string[] args)
     {
         var chaosSystem = ModContent.GetInstance<ChaosEffectsSystem>();
+        string log;
 
-        if (args.Length != 1)
+        if (args.Length < 1)
         {
             string channel = chaosSystem.TwitchVoteEffectProvider.CurrentChannel;
-            caller.Reply($"Currently connected to channel: \"{channel}\"", Color.SkyBlue);
+            string status = $"Currently connected to Twitch channel: \"{channel}\"";
+            log = ChaosModLogger.GetLogText(log4net.Core.Level.Info, status);
+            caller.Reply(log);
+
             return;
         }
 
         string channelName = args[0];
-        caller.Reply($"Attempting to connect to channel \"{channelName}\"...", Color.SkyBlue);
+        string text = $"Connecting to Twitch channel: \"{channelName}\"...";
+        log = ChaosModLogger.GetLogText(log4net.Core.Level.Info, text);
+        caller.Reply(log);
+
         chaosSystem.TwitchVoteEffectProvider.ConnectTwitch(channelName);
     }
 }

@@ -99,9 +99,9 @@ public abstract class Effect : ModType, ILocalizedModType, ICloneable
 
     protected void OnTick(int tick, Action action)
     {
-        //_scheduledActions[tick] = action;
         _scheduledActions.Add(tick, action);
-        Main.NewText($"Scheduled action at tick {tick} for effect {Name}", 255, 255, 0);
+        string log = $"Scheduled action at tick {tick} for effect {Name}";
+        TerrariaChaosMod.ChatLogger.Debug(log);
     }
 
     protected static int Seconds(float seconds)
