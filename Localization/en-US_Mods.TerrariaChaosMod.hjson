@@ -107,3 +107,10 @@ Configs: {
 		}
 	}
 }
+
+Achievements: {
+	MaldingIntensifiesAchievement: {
+		FriendlyName: Malding Intensifies
+		Description: Disable at least 5 effects in the Chaos Mod config.
+	}
+}

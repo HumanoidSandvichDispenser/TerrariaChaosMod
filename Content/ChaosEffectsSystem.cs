@@ -28,6 +28,10 @@ public partial class ChaosEffectsSystem : ModSystem
     /// </summary>
     public IReadOnlySet<Effect> EffectPool => _effectPool;
 
+    public IReadOnlySet<Effect> DisabledEffects =>  _allEffects
+            .Where(eff => eff is not null && !_effectPool.Contains(eff))
+            .ToHashSet();
+
     public IReadOnlyDictionary<string, Effect> EffectDictionary => _effectDictionary;
 
     public Stack<Effect> EffectHistory { get; } = new();
@@ -144,10 +148,8 @@ public partial class ChaosEffectsSystem : ModSystem
 
     private void DisplayLoadStatus()
     {
-        var disabledEffects = _allEffects
-            .Where(eff => eff is not null && !_effectPool.Contains(eff))
-            .Select(eff => eff.DisplayName);
-
+        var disabledEffects = DisabledEffects
+            .Select(eff => eff.DisplayName.ToString());
         StringBuilder sb = new();
         sb.Append("[Chaos Mod] Loaded effect pool ");
         sb.AppendFormat("with {0} effects enabled, ", _effectPool.Count);
@@ -171,7 +173,8 @@ public partial class ChaosEffectsSystem : ModSystem
 
     public override void OnWorldLoad()
     {
-        //Startup();
+        ModContent.GetInstance<Achievements.MaldingIntensifiesAchievement>()
+            .DisabledEffectsCondition.Value = DisabledEffects.Count;
     }
 
     public void Startup()

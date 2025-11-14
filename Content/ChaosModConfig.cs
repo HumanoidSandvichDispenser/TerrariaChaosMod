@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using Terraria.ModLoader;
 using Terraria.ModLoader.Config;
+using TerrariaChaosMod.Content.Achievements;
 
 namespace TerrariaChaosMod.Content;
 
@@ -28,5 +29,11 @@ public class ChaosModConfig : ModConfig
         base.OnChanged();
         var chaosSystem = ModContent.GetInstance<ChaosEffectsSystem>();
         chaosSystem?.LoadMasterPool();
+
+        var achieve = ModContent.GetInstance<MaldingIntensifiesAchievement>();
+        if (achieve is not null)
+        {
+            achieve.DisabledEffectsCondition.Value = DisabledEffects.Count;
+        }
     }
 }
