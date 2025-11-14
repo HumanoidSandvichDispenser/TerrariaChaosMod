@@ -100,5 +100,10 @@ Configs: {
 			Label: Disabled Effects
 			Tooltip: Separate multiple effect names with commas. Effects listed here will not be applied during gameplay.
 		}
+
+		AnnounceNewVoteInChat: {
+			Label: Announce new vote through in-game chat
+			Tooltip: Sends a message in the in-game chat displaying the new vote options when a new Twitch vote starts.
+		}
 	}
 }
