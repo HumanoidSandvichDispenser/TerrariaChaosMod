@@ -194,9 +194,7 @@ public sealed class EffectPlayer : ModPlayer
     {
         if (EffectLock.Of<ItemEffects.ProjectileRouletteEffect>().IsAcquired)
         {
-            // pick a random projectile type
-            int randomType = Main.rand.Next(1, ProjectileID.Count);
-            type = randomType;
+            type = ItemEffects.ProjectileRouletteEffect.NextProjectile();
         }
 
         if (EffectLock.Of<ProjectileDysfunctionEffect>().IsAcquired)
