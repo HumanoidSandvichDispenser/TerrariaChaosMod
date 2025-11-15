@@ -69,6 +69,10 @@ Effects: {
 	ProjectileRouletteEffect.DisplayName: Projectile Roulette Effect
 	ProjectileDysfunctionEffect.DisplayName: Projectile Dysfunction Effect
 	BeeYourselfEffect.DisplayName: Bee Yourself Effect
+	SpawnDeerclopsEffect.DisplayName: Spawn Deerclops Effect
+	SpawnDukeFishronEffect.DisplayName: Spawn Duke Fishron Effect
+	SpawnQueenBeeEffect.DisplayName: Spawn Queen Bee Effect
+	SpawnQueenSlimeEffect.DisplayName: Spawn Queen Slime Effect
 	BubbleSortInventoryEffect.DisplayName: Bubble Sort Inventory
 	InsertionSortInventoryEffect.DisplayName: Insertion Sort Inventory
 	GnomeSortInventoryEffect.DisplayName: Gnome Sort Inventory
