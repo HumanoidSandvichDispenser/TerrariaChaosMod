@@ -20,6 +20,8 @@ public abstract class Effect : ModType, ILocalizedModType, ICloneable
     /// </summary>
     public virtual int Duration => Seconds(30);
 
+    public virtual string StatusText => $"{DisplayName} ({TimeLeft / 60}s)";
+
     /// <summary>
     /// Current time left of the effect in ticks.
     /// </summary>

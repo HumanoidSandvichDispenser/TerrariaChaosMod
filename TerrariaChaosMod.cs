@@ -13,6 +13,8 @@ public class TerrariaChaosMod : Mod
 {
     public static Terraria.Audio.SoundStyle LHeroine { get; private set; }
 
+    public static Terraria.Audio.SoundStyle SquareWave { get; private set; }
+
     public static Effect PaletteShaderEffect { get; private set; }
 
     public static ChaosModLogger ChatLogger { get; private set; } = new(null!);
@@ -48,6 +50,8 @@ public class TerrariaChaosMod : Mod
                 new Content.Skies.ForcedCreditsRollSky();
 
             LHeroine = new("TerrariaChaosMod/Content/Music/heroine");
+
+            SquareWave = new("TerrariaChaosMod/Content/Audio/tone");
 
             PaletteShaderEffect = Assets.Request<Effect>("Content/Shaders/PaletteShader").Value;
         }

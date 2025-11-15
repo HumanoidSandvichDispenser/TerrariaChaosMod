@@ -68,8 +68,8 @@ public class EffectsUI : UIState
             else
             {
                 var effectNameMap = activeEffects
-                    .Where(eff => eff.DisplayName.Value != string.Empty)
-                    .Select(eff => $"{eff.DisplayName} ({eff.TimeLeft / 60}s)");
+                    .Where(eff => eff.StatusText != string.Empty)
+                    .Select(eff => eff.StatusText);
                 text = string.Join("\n", effectNameMap);
                 _text.TextColor = Color.White;
             }
