@@ -207,6 +207,11 @@ public partial class ChaosEffectsSystem : ModSystem
 
     public override void OnWorldUnload()
     {
+        if (!Terraria.Main.dedServ)
+        {
+            Terraria.Main.LocalPlayer.GetModPlayer<ChaosModPlayer>()
+                .CleanUpAllEffects();
+        }
         TwitchVoteEffectProvider.DisconnectTwitch();
         _ = TwitchVoteEffectProvider.StopWebSocket();
     }

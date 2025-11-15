@@ -13,9 +13,18 @@ public class ChaosModPlayer : ModPlayer
 
     private Queue<Effects.Effect> _waitingEffects = new();
 
-    public override void ResetEffects()
+    ~ChaosModPlayer()
     {
+        CleanUpAllEffects();
+    }
 
+    internal void CleanUpAllEffects()
+    {
+        foreach (var effect in activeEffects)
+        {
+            effect.CleanUp(Player);
+        }
+        activeEffects.Clear();
     }
 
     private void ApplyEffect(Effects.Effect effect)
