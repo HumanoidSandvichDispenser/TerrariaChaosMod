@@ -15,6 +15,15 @@ public abstract class Effect : ModType, ILocalizedModType, ICloneable
         get => this.GetLocalization(nameof(DisplayName), PrettyPrintName);
     }
 
+    public enum EffectSide
+    {
+        Server,
+        Client,
+        Both
+    }
+
+    public virtual EffectSide Side => EffectSide.Both;
+
     /// <summary>
     /// Duration of the effect in ticks.
     /// </summary>
