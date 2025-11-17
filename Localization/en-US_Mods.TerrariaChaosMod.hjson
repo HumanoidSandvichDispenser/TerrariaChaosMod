@@ -76,6 +76,7 @@ Effects: {
 	BubbleSortInventoryEffect.DisplayName: Bubble Sort Inventory
 	InsertionSortInventoryEffect.DisplayName: Insertion Sort Inventory
 	GnomeSortInventoryEffect.DisplayName: Gnome Sort Inventory
+	KillRandomNpcEffect.DisplayName: Kill Random NPC
 	ShuffleInventoryEffect.DisplayName: Shuffle Inventory
 	CocktailSortInventoryEffect.DisplayName: Cocktail Sort Inventory
 }
