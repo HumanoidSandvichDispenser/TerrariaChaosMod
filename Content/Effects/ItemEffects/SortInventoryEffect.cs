@@ -128,7 +128,7 @@ public abstract class SortInventoryEffect : Effect
 
     protected void PlaySound(float value)
     {
-        float pitchOffset = value * 4 - 2;
+        float pitchOffset = value * 6 - 4;
         var sound = TerrariaChaosMod.SquareWave.WithPitchOffset(pitchOffset);
         SoundEngine.PlaySound(sound);
     }
