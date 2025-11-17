@@ -76,6 +76,8 @@ Effects: {
 	BubbleSortInventoryEffect.DisplayName: Bubble Sort Inventory
 	InsertionSortInventoryEffect.DisplayName: Insertion Sort Inventory
 	GnomeSortInventoryEffect.DisplayName: Gnome Sort Inventory
+	ShuffleInventoryEffect.DisplayName: Shuffle Inventory
+	CocktailSortInventoryEffect.DisplayName: Cocktail Sort Inventory
 }
 
 Buffs: {
