@@ -25,6 +25,7 @@ public sealed class GnomeSortInventoryEffect : SortInventoryEffect
                 items[i] = temp;
                 i--;
             }
+            _sortedItems = i;
         }
     }
 }

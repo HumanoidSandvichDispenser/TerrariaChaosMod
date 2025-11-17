@@ -27,7 +27,7 @@ public sealed class BubbleSortInventoryEffect : SortInventoryEffect
                 }
                 else
                 {
-                    yield return new(j, j);
+                    yield return new(j, j + 1);
                 }
             }
 
