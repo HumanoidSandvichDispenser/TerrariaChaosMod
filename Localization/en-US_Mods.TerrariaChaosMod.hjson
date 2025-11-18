@@ -79,6 +79,9 @@ Effects: {
 	KillRandomNpcEffect.DisplayName: Kill Random NPC
 	ShuffleInventoryEffect.DisplayName: Shuffle Inventory
 	CocktailSortInventoryEffect.DisplayName: Cocktail Sort Inventory
+	GiveOnePlatinumCoinEffect.DisplayName: Give One Platinum Coin
+	GiveOneStackOfDirtEffect.DisplayName: Give One Stack Of Dirt
+	GiveOneTorchEffect.DisplayName: Give One Torch
 }
 
 Buffs: {
