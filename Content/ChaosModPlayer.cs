@@ -86,5 +86,10 @@ public class ChaosModPlayer : ModPlayer
     {
         var effectsSystem = ModContent.GetInstance<ChaosEffectsSystem>();
         effectsSystem.Startup();
+
+        if (Main.netMode == NetmodeID.Server || Main.netMode == NetmodeID.SinglePlayer)
+        {
+            NPCs.DogTamerNPC.SetHealthOfAll();
+        }
     }
 }

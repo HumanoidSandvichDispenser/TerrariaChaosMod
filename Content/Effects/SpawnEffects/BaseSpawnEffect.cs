@@ -1,3 +1,4 @@
+using System;
 using Microsoft.Xna.Framework;
 using Terraria;
 
@@ -5,17 +6,24 @@ namespace TerrariaChaosMod.Content.Effects.SpawnEffects;
 
 public class BaseSpawnEffect : Effect
 {
-    private int _npcId;
     protected int _npcIndex = -1;
+    private Func<int> _npcIdFunc;
+
+    public override EffectSide Side => EffectSide.Server;
 
     public BaseSpawnEffect(int npcId)
     {
-        _npcId = npcId;
+        _npcIdFunc = () => npcId;
+    }
+
+    public BaseSpawnEffect(Func<int> npcIdFunc)
+    {
+        _npcIdFunc = npcIdFunc;
     }
 
     public override void ApplyEffect(Player player)
     {
-        _npcIndex = SpawnNPCAtPlayer(_npcId, player);
+        _npcIndex = SpawnNPCAtPlayer(_npcIdFunc(), player);
         base.ApplyEffect(player);
     }
 

@@ -13,6 +13,8 @@ public class TerrariaChaosMod : Mod
 {
     public static Terraria.Audio.SoundStyle LHeroine { get; private set; }
 
+    public static int ForsenTheme { get; private set; }
+
     public static Terraria.Audio.SoundStyle SquareWave { get; private set; }
 
     public static Effect PaletteShaderEffect { get; private set; }
@@ -54,6 +56,10 @@ public class TerrariaChaosMod : Mod
             SquareWave = new("TerrariaChaosMod/Content/Audio/tone");
 
             PaletteShaderEffect = Assets.Request<Effect>("Content/Shaders/PaletteShader").Value;
+
+            string forsenThemePath = "Content/Audio/forsen/dont-doubt";
+            MusicLoader.AddMusic(this, forsenThemePath);
+            ForsenTheme = MusicLoader.GetMusicSlot(this, forsenThemePath);
         }
     }
 }
