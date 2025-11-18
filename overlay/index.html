@@ -112,6 +112,12 @@
       font-weight: 800;
       color: var(--text);
     }
+    
+    .vote-count {
+      font-size: 20px;
+      font-weight: 600;
+      color: var(--text);
+    }
 
     .meta {
       display: flex;
@@ -206,7 +212,12 @@
       </template>
     </div>
 
-    <div class="meta">
+    <div class="vote-count">
+      <span>Total votes:</span>
+      <span x-text="totalVotes">0</span>
+    </div>
+
+    <!--div class="meta">
       <div class="status">
         <span class="status-dot"
               :class="{
@@ -232,7 +243,7 @@
         />
         <button class="btn" x-on:click="forceReconnect()">Reconnect</button>
       </div>
-    </div>
+    </div-->
   </div>
 
   <script>
@@ -241,6 +252,7 @@
         ws: null,
         statusText: "disconnected",
         options: [],
+        totalVotes: 0,
         reconnectDelay: 1000,
         maxDelay: 10000,
         shouldReconnect: true,
@@ -355,6 +367,7 @@
             return { Number: num, Name: name, Proportion: proportion };
           });
 
+          this.totalVotes = data.TotalVotes ?? 0;
           this.options = incoming;
         },
 

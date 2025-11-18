@@ -136,7 +136,7 @@ public class TwitchVoteEffectProvider : IEffectProvider
         float randomProportion = sum > 0 ? (float)_votes[i] / sum : 1;
         options.Add(new(i + 1 + VoteNumberOffset, "Random Effect", randomProportion));
 
-        TwitchVoteData data = new(options.ToArray(), voteStarted);
+        TwitchVoteData data = new(sum, options.ToArray(), voteStarted);
 
         _ = _wsServer.BroadcastAsync(JsonSerializer.Serialize(data));
     }
@@ -148,12 +148,10 @@ public class TwitchVoteEffectProvider : IEffectProvider
             return;
         }
 
-        Terraria.Main.NewText($"Message from {e.Username}: {e.Message}");
         if (int.TryParse(e.Message, out int voteNumber))
         {
             if (voteNumber >= 1 + VoteNumberOffset && voteNumber <= 4 + VoteNumberOffset)
             {
-                Terraria.Main.NewText($"{e.Username} voted for option {voteNumber}");
                 TallyVote(voteNumber);
             }
         }
