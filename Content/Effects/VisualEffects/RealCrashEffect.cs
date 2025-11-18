@@ -6,6 +6,8 @@ namespace TerrariaChaosMod.Content.Effects.VisualEffects;
 
 public class RealCrashEffect : FakeCrashEffect
 {
+    public override string StatusText => "";
+
     public override bool ShouldIncludeInPool(ICollection<Effect> pool)
     {
         // only include this effect if this is the voting pool,

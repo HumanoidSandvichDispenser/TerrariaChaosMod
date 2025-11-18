@@ -36,7 +36,10 @@ public class ChaosModPlayer : ModPlayer
         // notify player with icon and text
         string icon = $"[i:{ItemID.RainbowCursor}]";
         var color = Color.MediumPurple;
-        Main.NewText($"{icon} New Effect: {effect.DisplayName}", color);
+        if (effect.StatusText != "")
+        {
+            Main.NewText($"{icon} New Effect: {effect.DisplayName}", color);
+        }
     }
 
     public override void PreUpdate()

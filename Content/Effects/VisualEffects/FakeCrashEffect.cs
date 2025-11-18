@@ -8,19 +8,9 @@ public class FakeCrashEffect : Effect
 {
     private bool _hasLastFreeze = false;
 
-    protected bool _showName = true;
+    private string _statusText = "";
 
-    public override LocalizedText DisplayName
-    {
-        get
-        {
-            if (!_showName)
-            {
-                return Language.GetText("Mods.TerrariaChaosMod.HiddenEffect");
-            }
-            return this.GetLocalization(nameof(DisplayName));
-        }
-    }
+    public override string StatusText => _statusText;
 
     protected void SetResponding(bool isResponding)
     {
@@ -40,7 +30,6 @@ public class FakeCrashEffect : Effect
 
     public override void ApplyEffect(Player player)
     {
-        _showName = false;
         SetResponding(false);
 
         // freeze for 5 seconds, and another short freeze after 30 ticks
@@ -49,20 +38,18 @@ public class FakeCrashEffect : Effect
         After(30, () => System.Threading.Thread.Sleep(400));
         After(40, () => System.Threading.Thread.Sleep(400));
         After(60, () => { System.Threading.Thread.Sleep(5000); _hasLastFreeze = true; });
+        After(61, () => _statusText = DisplayName.ToString());
 
         base.ApplyEffect(player);
     }
 
     public override bool Update(Player player)
     {
-        // end the effect after the second freeze
-        base.Update(player);
-        return _hasLastFreeze;
+        return base.Update(player);
     }
 
     public override void CleanUp(Player player)
     {
-        _showName = true;
         SetResponding(true);
         base.CleanUp(player);
     }
