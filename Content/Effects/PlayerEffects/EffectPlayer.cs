@@ -122,6 +122,16 @@ public sealed class EffectPlayer : ModPlayer
         }
     }
 
+    public override bool ConsumableDodge(Player.HurtInfo info)
+    {
+        if (Effects.EffectLock.Of<GodmodeEffect>().IsAcquired)
+        {
+            return true;
+        }
+
+        return base.ConsumableDodge(info);
+    }
+
     private void ModifyIncomingDamage(ref Player.HurtModifiers modifiers)
     {
         if (IsNoHitRunActive)

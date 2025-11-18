@@ -82,6 +82,7 @@ Effects: {
 	GiveOnePlatinumCoinEffect.DisplayName: Give One Platinum Coin
 	GiveOneStackOfDirtEffect.DisplayName: Give One Stack Of Dirt
 	GiveOneTorchEffect.DisplayName: Give One Torch
+	GodmodeEffect.DisplayName: Godmode
 }
 
 Buffs: {
