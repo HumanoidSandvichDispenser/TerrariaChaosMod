@@ -39,7 +39,7 @@ Effects: {
 	RollCreditsEffect.DisplayName: Roll Credits
 	IgnitePlayerEffect.DisplayName: Ignite Player
 	TemporaryMediumcoreEffect.DisplayName: Temporary Mediumcore
-	RichesToRagsEffect.DisplayName: Riches To Rags Effect
+	RichesToRagsEffect.DisplayName: Riches To Rags
 	AFKEffect.DisplayName: AFK
 	InvertColorsEffect.DisplayName: Invert Colors
 	RainbowEffect.DisplayName: Rainbow
@@ -54,25 +54,26 @@ Effects: {
 	IncreasedSpawnRateEffect.DisplayName: Increased Spawn Rate
 	MaxSpawnRateEffect.DisplayName: Max Spawn Rate
 	RegenerateBossHealthEffect.DisplayName: Regenerate Boss Health
-	SpawnDungeonGuardianEffect.DisplayName: Spawn Dungeon Guardian Effect
-	SpawnKingSlimeEffect.DisplayName: Spawn King Slime Effect
-	SpawnGuideEffect.DisplayName: Spawn Guide Effect
-	FloatingPointImprecisionEffect.DisplayName: Floating Point Imprecision Effect
-	ButtbotEffect.DisplayName: Buttbot Effect
-	SpawnTravelingMerchantEffect.DisplayName: Spawn Traveling Merchant Effect
-	ManaForHealthEffect.DisplayName: Mana For Health Effect
+	PoisonousPotionsEffect.DisplayName: Poisonous Potions
+	SpawnDungeonGuardianEffect.DisplayName: Spawn Dungeon Guardian
+	SpawnKingSlimeEffect.DisplayName: Spawn King Slime
+	SpawnGuideEffect.DisplayName: Spawn Guide
+	FloatingPointImprecisionEffect.DisplayName: Floating Point Imprecision
+	ButtbotEffect.DisplayName: Buttbot
+	SpawnTravelingMerchantEffect.DisplayName: Spawn Traveling Merchant
+	ManaForHealthEffect.DisplayName: Mana For Health
 	NoPotionSicknessEffect.DisplayName: No Potion Sickness Effect
 	CheatCodeVotingEffect.DisplayName: Cheat Code Voting
 	ComboMetaEffect.DisplayName: Combo (Meta)
 	OmegaComboMetaEffect.DisplayName: Omega Combo (Meta)
 	InsaneKnockbackEffect.DisplayName: Insane Knockback
-	ProjectileRouletteEffect.DisplayName: Projectile Roulette Effect
-	ProjectileDysfunctionEffect.DisplayName: Projectile Dysfunction Effect
-	BeeYourselfEffect.DisplayName: Bee Yourself Effect
-	SpawnDeerclopsEffect.DisplayName: Spawn Deerclops Effect
-	SpawnDukeFishronEffect.DisplayName: Spawn Duke Fishron Effect
-	SpawnQueenBeeEffect.DisplayName: Spawn Queen Bee Effect
-	SpawnQueenSlimeEffect.DisplayName: Spawn Queen Slime Effect
+	ProjectileRouletteEffect.DisplayName: Projectile Roulette
+	ProjectileDysfunctionEffect.DisplayName: Projectile Dysfunction
+	BeeYourselfEffect.DisplayName: Bee Yourself
+	SpawnDeerclopsEffect.DisplayName: Spawn Deerclops
+	SpawnDukeFishronEffect.DisplayName: Spawn Duke Fishron
+	SpawnQueenBeeEffect.DisplayName: Spawn Queen Bee
+	SpawnQueenSlimeEffect.DisplayName: Spawn Queen Slime
 	BubbleSortInventoryEffect.DisplayName: Bubble Sort Inventory
 	InsertionSortInventoryEffect.DisplayName: Insertion Sort Inventory
 	GnomeSortInventoryEffect.DisplayName: Gnome Sort Inventory
