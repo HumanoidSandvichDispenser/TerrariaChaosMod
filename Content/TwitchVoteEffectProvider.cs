@@ -24,6 +24,8 @@ public class TwitchVoteEffectProvider : IEffectProvider
 
     private int[] _votes = new int[4];
 
+    private int[] _testingVotes = new int[4];
+
     public int VoteNumberOffset { get; private set; } = 0;
 
     private Integration.TwitchChatReader _chatReader;
@@ -243,12 +245,13 @@ public class TwitchVoteEffectProvider : IEffectProvider
         for (int i = 0; i < _votes.Length; i++)
         {
             _votes[i] = 0;
+            _testingVotes[i] = 0;
         }
 
         VoteNumberOffset = (VoteNumberOffset == 0) ? 4 : 0;
     }
 
-    private void TallyVote(int voteNumber)
+    private void TallyVote(int voteNumber, bool isTestVote = false)
     {
         int index = voteNumber - VoteNumberOffset - 1;
 
@@ -258,6 +261,50 @@ public class TwitchVoteEffectProvider : IEffectProvider
         }
 
         _votes[index]++;
+
+        if (!isTestVote && ModContent.GetInstance<ChaosModConfig>().SimulatedVotesForTesting)
+        {
+            _testingVotes[index]++;
+        }
+    }
+
+    internal void TestRandomVotes()
+    {
+        if (Terraria.Main.rand.NextDouble() < 0.1)
+        {
+            // add a random vote
+            int randomVote = Terraria.Main.rand
+                .Next(1 + VoteNumberOffset, 5 + VoteNumberOffset);
+            TallyVote(randomVote, true);
+            return;
+        }
+
+        int sum = _testingVotes.Sum();
+        if (sum == 0)
+        {
+            return;
+        }
+
+        var rand = Terraria.Main.rand;
+        int roll = rand.Next(0, sum);
+
+        int cumulative = 0;
+        int i;
+        for (i = 0; i < _testingVotes.Length; i++)
+        {
+            cumulative += _testingVotes[i];
+            if (roll < cumulative)
+            {
+                break;
+            }
+        }
+
+        int numVotes = rand.Next(0, 3);
+
+        for (int j = 0; j < numVotes; j++)
+        {
+            TallyVote(i + VoteNumberOffset + 1, true);
+        }
     }
 
     public Effects.Effect GetEffect()

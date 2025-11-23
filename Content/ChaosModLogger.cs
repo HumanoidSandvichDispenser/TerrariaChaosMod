@@ -84,6 +84,7 @@ public class ChaosModLogger
     /// </summary>
     public void Debug(object message, Color? color = null)
     {
+        return;
         Display(GetLogText(Level.Debug, message), color);
     }
 

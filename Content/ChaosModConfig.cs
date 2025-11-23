@@ -24,6 +24,12 @@ public class ChaosModConfig : ModConfig
 
     public bool AnnounceNewVoteInChat = true;
 
+    /// <summary>
+    /// If true, one vote in chat will count as multiple votes for testing purposes.
+    /// In addition, votes for other effects will be randomly generated periodically.
+    /// </summary>
+    public bool SimulatedVotesForTesting = false;
+
     public override void OnChanged()
     {
         base.OnChanged();

@@ -228,6 +228,8 @@ public partial class ChaosEffectsSystem : ModSystem
             TwitchVoteEffectProvider?.BroadcastTally();
         }
 
+        TestStep();
+
         if (_tickCounter >= _votingDuration)
         {
             _tickCounter = 0;
@@ -240,6 +242,24 @@ public partial class ChaosEffectsSystem : ModSystem
         }
 
         _tickCounter += (int)DurationMultiplier;
+    }
+
+    private void TestStep()
+    {
+        // more votes near the middle of voting period
+        double mid = _votingDuration / 2.0;
+        double dist = System.Math.Abs(_tickCounter - mid);  // 0 at middle, max at edges
+        double x = System.Math.Max(1, dist);
+
+        double logVal = System.Math.Log2(x);
+        int q = System.Math.Max(2, (int)(logVal * 4));   // scale with k if needed
+        if (Terraria.Main.rand.Next(0, q) == 0)
+        {
+            if (ModContent.GetInstance<ChaosModConfig>().SimulatedVotesForTesting)
+            {
+                TwitchVoteEffectProvider.TestRandomVotes();
+            }
+        }
     }
 
     public void ApplyEffect(Effect effect)
