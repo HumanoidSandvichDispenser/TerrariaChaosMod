@@ -22,7 +22,12 @@ public class ChaosModConfig : ModConfig
     [DefaultListValue("")]
     public List<string> DisabledEffects = new List<string>();
 
-    public bool AnnounceNewVoteInChat = true;
+    public bool AnnounceNewVoteInChat = false;
+
+    /// <summary>
+    /// If true, each user can only vote once per voting period.
+    /// </summary>
+    public bool UniqueVotesPerUser = true;
 
     /// <summary>
     /// If true, one vote in chat will count as multiple votes for testing purposes.

@@ -22,9 +22,13 @@ public class TwitchVoteEffectProvider : IEffectProvider
 
     public IReadOnlyList<Effects.Effect> VotingPool => _votingPool;
 
+    // TODO: create data structure for votes, including user tracking and
+    // testing votes
     private int[] _votes = new int[4];
 
     private int[] _testingVotes = new int[4];
+
+    private Dictionary<string, int> _userVotes = new();
 
     public int VoteNumberOffset { get; private set; } = 0;
 
@@ -154,7 +158,7 @@ public class TwitchVoteEffectProvider : IEffectProvider
         {
             if (voteNumber >= 1 + VoteNumberOffset && voteNumber <= 4 + VoteNumberOffset)
             {
-                TallyVote(voteNumber);
+                TallyVote(e.Username, voteNumber);
             }
         }
 
@@ -186,7 +190,7 @@ public class TwitchVoteEffectProvider : IEffectProvider
         _effectsList = effectPool;
         SetupVotingPool();
         CanProvide = true;
-        
+
         // broadcast tally to notify overlay of new vote
         BroadcastTally(true);
 
@@ -247,17 +251,29 @@ public class TwitchVoteEffectProvider : IEffectProvider
             _votes[i] = 0;
             _testingVotes[i] = 0;
         }
+        _userVotes.Clear(); // clear tracked vote number for each user
 
         VoteNumberOffset = (VoteNumberOffset == 0) ? 4 : 0;
     }
 
-    private void TallyVote(int voteNumber, bool isTestVote = false)
+    private void TallyVote(string user, int voteNumber, bool isTestVote = false)
     {
         int index = voteNumber - VoteNumberOffset - 1;
 
         if (index < 0 || index >= _votes.Length)
         {
             return;
+        }
+
+        // if unique votes per user is enabled, check if user has already voted
+        if (ModContent.GetInstance<ChaosModConfig>().UniqueVotesPerUser)
+        {
+            if (user is not null && _userVotes.TryGetValue(user, out int previousVote))
+            {
+                // user has already voted, remove their previous vote
+                _votes[previousVote]--;
+            }
+            _userVotes[user] = index;
         }
 
         _votes[index]++;
@@ -275,7 +291,7 @@ public class TwitchVoteEffectProvider : IEffectProvider
             // add a random vote
             int randomVote = Terraria.Main.rand
                 .Next(1 + VoteNumberOffset, 5 + VoteNumberOffset);
-            TallyVote(randomVote, true);
+            TallyVote(null, randomVote, true);
             return;
         }
 
@@ -303,7 +319,7 @@ public class TwitchVoteEffectProvider : IEffectProvider
 
         for (int j = 0; j < numVotes; j++)
         {
-            TallyVote(i + VoteNumberOffset + 1, true);
+            TallyVote(null, i + VoteNumberOffset + 1, true);
         }
     }
 
