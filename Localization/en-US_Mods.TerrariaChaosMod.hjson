@@ -13,85 +13,380 @@ Items: {
 }
 
 Effects: {
-	FakeLagEffect.DisplayName: Fake Lag
-	BoostBrakingEffect.DisplayName: Boost Braking
-	EatDaPooPooEffect.DisplayName: Eat Da Poo Poo
-	KillPlayerEffect.DisplayName: Kill Player
-	SpaceProgramEffect.DisplayName: Space Program
-	LargeItemsEffect.DisplayName: Large Items
-	SidewaysGravityEffect.DisplayName: Sideways Gravity
-	RagsToRichesEffect.DisplayName: Rags To Riches
-	HelenKellerEffect.DisplayName: Helen Keller Playthrough
-	NoMountEffect.DisplayName: No Mount
-	RecallEffect.DisplayName: Recall
-	BlindPlaythroughEffect.DisplayName: Blind Playthrough
-	NoIFramesEffect.DisplayName: No IFrames
-	PowerPlayEffect.DisplayName: Power Play
-	ExtremeSniperScopeEffect.DisplayName: Extreme Sniper Scope
-	ReforgeEffect.DisplayName: Reforge
-	AllCritsEffect.DisplayName: All Crits
-	ConstantMapEffect.DisplayName: Constant Map
-	FakeCrashEffect.DisplayName: Fake Crash
-	RealCrashEffect.DisplayName: Fake Fake Crash
-	MovementSpeed5xEffect.DisplayName: 5x Movement Speed
-	SlowAccelerationEffect.DisplayName: Slow Acceleration
-	SwitchToRandomLoadoutEffect.DisplayName: Switch To Random Loadout
-	RollCreditsEffect.DisplayName: Roll Credits
-	IgnitePlayerEffect.DisplayName: Ignite Player
-	TemporaryMediumcoreEffect.DisplayName: Temporary Mediumcore
-	RichesToRagsEffect.DisplayName: Riches To Rags
-	AFKEffect.DisplayName: AFK
-	InvertColorsEffect.DisplayName: Invert Colors
-	RainbowEffect.DisplayName: Rainbow
-	LHeroineEffect.DisplayName: L'Heroine
-	ButteryShoesEffect.DisplayName: Buttery Shoes
-	RudeTownNPCsEffect.DisplayName: Rude Town NPCs
-	NoHitRunEffect.DisplayName: No Hit Run
-	PacifistRunEffect.DisplayName: Pacifist Run
-	SpawnEmpressOfLightEffect.DisplayName: Spawn Empress of Light
-	TeleportAllNpcsEffect.DisplayName: Teleport All NPCs to Player
-	CloudGamingEffect.DisplayName: Cloud Gaming
-	IncreasedSpawnRateEffect.DisplayName: Increased Spawn Rate
-	MaxSpawnRateEffect.DisplayName: Max Spawn Rate
-	RegenerateBossHealthEffect.DisplayName: Regenerate Boss Health
-	PoisonousPotionsEffect.DisplayName: Poisonous Potions
-	SpawnDungeonGuardianEffect.DisplayName: Spawn Dungeon Guardian
-	SpawnKingSlimeEffect.DisplayName: Spawn King Slime
-	SpawnGuideEffect.DisplayName: Spawn Guide
-	FloatingPointImprecisionEffect.DisplayName: Floating Point Imprecision
-	ButtbotEffect.DisplayName: Buttbot
-	SpawnTravelingMerchantEffect.DisplayName: Spawn Traveling Merchant
-	ManaForHealthEffect.DisplayName: Mana For Health
-	NoPotionSicknessEffect.DisplayName: No Potion Sickness Effect
-	CheatCodeVotingEffect.DisplayName: Cheat Code Voting
-	ComboMetaEffect.DisplayName: Combo (Meta)
-	OmegaComboMetaEffect.DisplayName: Omega Combo (Meta)
-	InsaneKnockbackEffect.DisplayName: Insane Knockback
-	ProjectileRouletteEffect.DisplayName: Projectile Roulette
-	ProjectileDysfunctionEffect.DisplayName: Projectile Dysfunction
-	BeeYourselfEffect.DisplayName: Bee Yourself
-	SpawnDeerclopsEffect.DisplayName: Spawn Deerclops
-	SpawnDukeFishronEffect.DisplayName: Spawn Duke Fishron
-	SpawnQueenBeeEffect.DisplayName: Spawn Queen Bee
-	SpawnQueenSlimeEffect.DisplayName: Spawn Queen Slime
-	BubbleSortInventoryEffect.DisplayName: Bubble Sort Inventory
-	InsertionSortInventoryEffect.DisplayName: Insertion Sort Inventory
-	GnomeSortInventoryEffect.DisplayName: Gnome Sort Inventory
-	KillRandomNpcEffect.DisplayName: Kill Random NPC
-	ShuffleInventoryEffect.DisplayName: Shuffle Inventory
-	CocktailSortInventoryEffect.DisplayName: Cocktail Sort Inventory
-	SpawnDogTamerEffect.DisplayName: Spawn Dog Tamer
-	KillOneDogTamerEffect.DisplayName: Kill One Dog Tamer
-	GiveOnePlatinumCoinEffect.DisplayName: Give One Platinum Coin
-	GiveOneGoldCoinEffect.DisplayName: Give One Gold Coin Effect
-	GiveOneStackOfDirtEffect.DisplayName: Give One Stack Of Dirt
-	GiveOneTorchEffect.DisplayName: Give One Torch
-	InvertCurrentVelocityEffect.DisplayName: Invert Current Velocity
-	GodmodeEffect.DisplayName: Godmode
-	Spawn25BeachBallsEffect.DisplayName: Spawn 25 Beach Balls
-	ShootZenithsEffect.DisplayName: Shoot Zeniths
-	SlingshotEffect.DisplayName: Slingshot
-	ForcedConfusedEffect.DisplayName: Forced Confused
+	FakeLagEffect: {
+		DisplayName: Fake Lag
+		Description: Decreases the framerate to 1/4th of normal.
+	}
+
+	BoostBrakingEffect: {
+		DisplayName: Boost Braking
+		Description: Deceleration accelerates the player instead.
+	}
+
+	EatDaPooPooEffect: {
+		DisplayName: Eat Da Poo Poo
+		Description: Fills the inventory with poo.
+	}
+
+	KillPlayerEffect: {
+		DisplayName: Kill Player
+		Description: Kills the player in 5 seconds.
+	}
+
+	SpaceProgramEffect: {
+		DisplayName: Space Program
+		Description: Launches the player into space.
+	}
+
+	LargeItemsEffect: {
+		DisplayName: Large Items
+		Description: Increases the size of all items.
+	}
+
+	SidewaysGravityEffect: {
+		DisplayName: Sideways Gravity
+		Description: Applies gravity sideways.
+	}
+
+	RagsToRichesEffect: {
+		DisplayName: Rags To Riches
+		Description: Converts all of the player's money into the tier above it.
+	}
+
+	HelenKellerEffect: {
+		DisplayName: Helen Keller Playthrough
+		Description: Blinds and deafens the player.
+	}
+
+	NoIFramesEffect: {
+		DisplayName: No IFrames
+		Description: Disables invincibility frames upon taking damage.
+	}
+
+	PowerPlayEffect: {
+		DisplayName: Power Play
+		Description: Gives the player powerful buffs and regenerates health.
+	}
+
+	ExtremeSniperScopeEffect: {
+		DisplayName: Extreme Sniper Scope
+		Description: Simulates the sniper scope effect.
+	}
+
+	ReforgeEffect: {
+		DisplayName: Reforge
+		Description: Reforges the currently held item.
+	}
+
+	AllCritsEffect: {
+		DisplayName: All Crits
+		Description: Gives the player 100% critical strike chance.
+	}
+
+	ConstantMapEffect: {
+		DisplayName: Constant Map
+		Description: Randomly opens the map periodically.
+	}
+
+	FakeCrashEffect: {
+		DisplayName: Fake Crash
+		Description: Fakes a game crash.
+	}
+
+	RealCrashEffect: {
+		DisplayName: Fake Fake Crash
+		Description: Almost fakes a game crash, but crashes for real.
+	}
+
+	MovementSpeed5xEffect: {
+		DisplayName: 5x Movement Speed
+		Description: Increases movement speed by 5 times.
+	}
+
+	SlowAccelerationEffect: {
+		DisplayName: Slow Acceleration
+		Description: Slows down movement acceleration.
+	}
+
+	SwitchToRandomLoadoutEffect: {
+		DisplayName: Switch To Random Loadout
+		Description: Switches the player's inventory to a random loadout.
+	}
+
+	RollCreditsEffect: {
+		DisplayName: Roll Credits
+		Description: Rolls the game credits.
+	}
+
+	IgnitePlayerEffect: {
+		DisplayName: Ignite Player
+		Description: Sets the player on fire. Not even water can extinguish it.
+	}
+
+	TemporaryMediumcoreEffect: {
+		DisplayName: Temporary Mediumcore
+		Description: If the player dies, they will drop all items in their inventory.
+	}
+
+	RichesToRagsEffect: {
+		DisplayName: Riches To Rags
+		Description: Converts all of the player's money into copper coins.
+	}
+
+	AFKEffect: {
+		DisplayName: AFK
+		Description: Forces the player to be idle for a short duration.
+	}
+
+	InvertColorsEffect: {
+		DisplayName: Invert Colors
+		Description: Inverts the colors on screen.
+	}
+
+	RainbowEffect: {
+		DisplayName: Rainbow
+		Description: Cycles through the hues on screen.
+	}
+
+	LHeroineEffect: {
+		DisplayName: L'Heroine
+		Description: FeelsGoodMan Clap
+	}
+
+	ButteryShoesEffect: {
+		DisplayName: Buttery Shoes
+		Description: Reduces friction when moving.
+	}
+
+	NoHitRunEffect: {
+		DisplayName: No Hit Run
+		Description: The player will die if they take any damage.
+	}
+
+	PacifistRunEffect: {
+		DisplayName: Pacifist Run
+		Description: The player cannot attack enemies.
+	}
+
+	SpawnEmpressOfLightEffect: {
+		DisplayName: Spawn Empress of Light
+		Description: Spawns the Empress of Light.
+	}
+
+	TeleportAllNpcsEffect: {
+		DisplayName: Teleport All NPCs to Player
+		Description: Teleports all NPCs, friendly and hostile, to the player's location.
+	}
+
+	CloudGamingEffect: {
+		DisplayName: Cloud Gaming
+		Description: Delays player input by 1 second.
+	}
+
+	IncreasedSpawnRateEffect: {
+		DisplayName: Increased Spawn Rate
+		Description: Increases the spawn rate by 5 times.
+	}
+
+	MaxSpawnRateEffect: {
+		DisplayName: Max Spawn Rate
+		Description: Significantly increases the spawn rate.
+	}
+
+	RegenerateBossHealthEffect: {
+		DisplayName: Regenerate Boss Health
+		Description: Regenerates all active bosses health.
+	}
+
+	PoisonousPotionsEffect: {
+		DisplayName: Poisonous Potions
+		Description: Health potions will reduce health instead of restoring it.
+	}
+
+	SpawnDungeonGuardianEffect: {
+		DisplayName: Spawn Dungeon Guardian
+		Description: Spawns the Dungeon Guardian.
+	}
+
+	SpawnKingSlimeEffect: {
+		DisplayName: Spawn King Slime
+		Description: Spawns King Slime.
+	}
+
+	SpawnGuideEffect: {
+		DisplayName: Spawn Guide
+		Description: Spawns the Guide NPC.
+	}
+
+	FloatingPointImprecisionEffect: {
+		DisplayName: Floating Point Imprecision
+		Description: Position and velocity mantissa bits are truncated, causing jittery movement.
+	}
+
+	ButtbotEffect: {
+		DisplayName: Buttbot
+		Description: Replaces random NPC dialogue words with "butt".
+	}
+
+	SpawnTravelingMerchantEffect: {
+		DisplayName: Spawn Traveling Merchant
+		Description: Spawns the Traveling Merchant NPC.
+	}
+
+	ManaForHealthEffect: {
+		DisplayName: Mana For Health
+		Description: Health is drained to restore mana if the player has less than 10% of maximum mana.
+	}
+
+	NoPotionSicknessEffect: {
+		DisplayName: No Potion Sickness Effect
+		Description: Health potions do not give potion sickness.
+	}
+
+	CheatCodeVotingEffect: {
+		DisplayName: Cheat Code Voting
+		Description: Twitch chat viewers can enter effect names without spaces to trigger effects.
+	}
+
+	ComboMetaEffect: {
+		DisplayName: Combo (Meta)
+		Description: Reduces the voting time to allow effects to stack up.
+	}
+
+	OmegaComboMetaEffect: {
+		DisplayName: Omega Combo (Meta)
+		Description: Significantly reduces the voting time to allow effects to stack up rapidly.
+	}
+
+	InsaneKnockbackEffect: {
+		DisplayName: Insane Knockback
+		Description: All attacks have maximum knockback.
+	}
+
+	ProjectileRouletteEffect: {
+		DisplayName: Projectile Roulette
+		Description: Randomly changes the type of projectile fired.
+	}
+
+	ProjectileDysfunctionEffect: {
+		DisplayName: Projectile Dysfunction
+		Description: Projectiles are fired in random directions.
+	}
+
+	BeeYourselfEffect: {
+		DisplayName: Bee Yourself
+		Description: Projectiles are replaced with bees.
+	}
+
+	SpawnDeerclopsEffect: {
+		DisplayName: Spawn Deerclops
+		Description: Spawns Deerclops.
+	}
+
+	SpawnDukeFishronEffect: {
+		DisplayName: Spawn Duke Fishron
+		Description: Spawns Duke Fishron.
+	}
+
+	SpawnQueenBeeEffect: {
+		DisplayName: Spawn Queen Bee
+		Description: Spawns Queen Bee.
+	}
+
+	SpawnQueenSlimeEffect: {
+		DisplayName: Spawn Queen Slime
+		Description: Spawns Queen Slime.
+	}
+
+	BubbleSortInventoryEffect: {
+		DisplayName: Bubble Sort Inventory
+		Description: Sorts the inventory by name using the bubble sort algorithm.
+	}
+
+	InsertionSortInventoryEffect: {
+		DisplayName: Insertion Sort Inventory
+		Description: Sorts the inventory by name using the insertion sort algorithm.
+	}
+
+	GnomeSortInventoryEffect: {
+		DisplayName: Gnome Sort Inventory
+		Description: Sorts the inventory by name using the gnome sort algorithm.
+	}
+
+	KillRandomNpcEffect: {
+		DisplayName: Kill Random NPC
+		Description: Sorts the inventory by name using the gnome sort algorithm.
+	}
+
+	ShuffleInventoryEffect: {
+		DisplayName: Shuffle Inventory
+		Description: Shuffles the player's inventory randomly.
+	}
+
+	CocktailSortInventoryEffect: {
+		DisplayName: Cocktail Sort Inventory
+		Description: Sorts the inventory by name using the cocktail sort algorithm.
+	}
+
+	SpawnDogTamerEffect: {
+		DisplayName: Spawn Dog Tamer
+		Description: Spawns the Dog Tamer NPC (a griefer NPC).
+	}
+
+	KillOneDogTamerEffect: {
+		DisplayName: Kill One Dog Tamer
+		Description: Kills one Dog Tamer NPC if present.
+	}
+
+	GiveOnePlatinumCoinEffect: {
+		DisplayName: Give One Platinum Coin
+		Description: Gives the player one platinum coin.
+	}
+
+	GiveOneGoldCoinEffect: {
+		DisplayName: Give One Gold Coin Effect
+		Description: Gives the player one gold coin.
+	}
+
+	GiveOneStackOfDirtEffect: {
+		DisplayName: Give One Stack Of Dirt
+		Description: Gives the player 999 dirt blocks.
+	}
+
+	GiveOneTorchEffect: {
+		DisplayName: Give One Torch
+		Description: Gives the player one torch.
+	}
+
+	InvertCurrentVelocityEffect: {
+		DisplayName: Invert Current Velocity
+		Description: Inverts the player's current velocity.
+	}
+
+	GodmodeEffect: {
+		DisplayName: Godmode
+		Description: The player (mostly) cannot take damage.
+	}
+
+	Spawn25BeachBallsEffect: {
+		DisplayName: Spawn 25 Beach Balls
+		Description: Spawns 25 beach balls around the player.
+	}
+
+	ShootZenithsEffect: {
+		DisplayName: Shoot Zeniths
+		Description: Projectiles fired are replaced with Zeniths.
+	}
+
+	SlingshotEffect: {
+		DisplayName: Slingshot
+		Description: While active, the player's velocity is accumulated and released when the effect ends.
+	}
+
+	ForcedConfusedEffect: {
+		DisplayName: Forced Confused
+		Description: Applies the Confused debuff to the player.
+	}
 }
 
 Buffs: {

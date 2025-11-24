@@ -71,6 +71,12 @@ public partial class ChaosEffectsSystem : ModSystem
 
             var defaultInstance = method.Invoke(null, null) as Effects.Effect;
             _allEffects.Add(defaultInstance);
+
+            // force loading of localization entries
+            if (defaultInstance is not null)
+            {
+                var _ = defaultInstance.Description;
+            }
         }
     }
 

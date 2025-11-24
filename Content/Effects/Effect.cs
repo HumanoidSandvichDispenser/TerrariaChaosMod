@@ -15,6 +15,11 @@ public abstract class Effect : ModType, ILocalizedModType, ICloneable
         get => this.GetLocalization(nameof(DisplayName), PrettyPrintName);
     }
 
+    public virtual LocalizedText Description
+    {
+        get => this.GetLocalization(nameof(Description), () => null);
+    }
+
     public enum EffectSide
     {
         Server,
