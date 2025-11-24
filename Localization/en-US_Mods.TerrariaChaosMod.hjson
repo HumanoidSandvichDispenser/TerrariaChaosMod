@@ -83,10 +83,15 @@ Effects: {
 	SpawnDogTamerEffect.DisplayName: Spawn Dog Tamer
 	KillOneDogTamerEffect.DisplayName: Kill One Dog Tamer
 	GiveOnePlatinumCoinEffect.DisplayName: Give One Platinum Coin
+	GiveOneGoldCoinEffect.DisplayName: Give One Gold Coin Effect
 	GiveOneStackOfDirtEffect.DisplayName: Give One Stack Of Dirt
 	GiveOneTorchEffect.DisplayName: Give One Torch
+	InvertCurrentVelocityEffect.DisplayName: Invert Current Velocity
 	GodmodeEffect.DisplayName: Godmode
-	Spawn25BeachBallsEffect.DisplayName: Spawn25 Beach Balls Effect
+	Spawn25BeachBallsEffect.DisplayName: Spawn 25 Beach Balls
+	ShootZenithsEffect.DisplayName: Shoot Zeniths
+	SlingshotEffect.DisplayName: Slingshot
+	ForcedConfusedEffect.DisplayName: Forced Confused
 }
 
 Buffs: {
@@ -130,6 +135,11 @@ Configs: {
 
 		SimulatedVotesForTesting: {
 			Label: Simulated Votes For Testing
+			Tooltip: ""
+		}
+
+		UniqueVotesPerUser: {
+			Label: Unique Votes Per User
 			Tooltip: ""
 		}
 	}

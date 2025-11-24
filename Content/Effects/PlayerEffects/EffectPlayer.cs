@@ -202,6 +202,11 @@ public sealed class EffectPlayer : ModPlayer
 
     public override void ModifyShootStats(Item item, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback)
     {
+        if (EffectLock.Of<ItemEffects.ShootZenithsEffect>().IsAcquired)
+        {
+            type = ProjectileID.FinalFractal;
+        }
+
         if (EffectLock.Of<ItemEffects.ProjectileRouletteEffect>().IsAcquired)
         {
             type = ItemEffects.ProjectileRouletteEffect.NextProjectile();
