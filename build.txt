@@ -1,4 +1,4 @@
 displayName = Chaos Mod
 author = HumanoidSandvichDispenser
-version = 0.1
+version = 0.1.1
 dllReferences = TwitchLib.Client, TwitchLib.Client.Enums, TwitchLib.Client.Models, TwitchLib.Communication
