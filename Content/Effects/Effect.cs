@@ -196,4 +196,16 @@ public abstract class Effect : ModType, ILocalizedModType, ICloneable
     {
         EffectLock.Of(GetType()).Release();
     }
+
+    public record Metadata(string Name, string DisplayName, string Description, int Duration);
+
+    public Metadata GetMetadata()
+    {
+        return new Metadata(
+            Name,
+            DisplayName.ToString(),
+            Description.ToString(),
+            Duration
+        );
+    }
 }

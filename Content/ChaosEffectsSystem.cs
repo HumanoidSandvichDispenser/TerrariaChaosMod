@@ -24,6 +24,11 @@ public partial class ChaosEffectsSystem : ModSystem
     private Dictionary<string, Effect> _effectDictionary = new();
 
     /// <summary>
+    /// All loaded effects in the mod.
+    /// </summary>
+    public IReadOnlySet<Effect> AllEffects => _allEffects;
+
+    /// <summary>
     /// All enabled effects in the mod.
     /// </summary>
     public IReadOnlySet<Effect> EffectPool => _effectPool;
@@ -70,11 +75,11 @@ public partial class ChaosEffectsSystem : ModSystem
                 .MakeGenericMethod(type);
 
             var defaultInstance = method.Invoke(null, null) as Effects.Effect;
-            _allEffects.Add(defaultInstance);
 
             // force loading of localization entries
             if (defaultInstance is not null)
             {
+                _allEffects.Add(defaultInstance);
                 var _ = defaultInstance.Description;
             }
         }
