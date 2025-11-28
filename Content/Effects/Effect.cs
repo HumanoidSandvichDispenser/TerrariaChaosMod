@@ -52,6 +52,22 @@ public abstract class Effect : ModType, ILocalizedModType, ICloneable
     public virtual bool ShouldIncludeInPool(ICollection<Effect> pool) => true;
 
     /// <summary>
+    /// Weight of the effect when being chosen. This can be overridden to make
+    /// certain effects more or less likely to be chosen on certain game
+    /// conditions.
+    /// </summary>
+    public virtual double Weight => 1.0;
+
+    /// <summary>
+    /// Helper method to make an effect more or less likely to be chosen if in
+    /// hardmode.
+    /// </summary>
+    protected double HardmodeWeight(double weight, double hardmodeWeight)
+    {
+        return Terraria.Main.hardMode ? hardmodeWeight : weight;
+    }
+
+    /// <summary>
     /// Condition to check whether or not the effect should be applied now.
     /// </summary>
     public virtual bool ShouldApplyNow(Player player) => true;

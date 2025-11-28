@@ -8,6 +8,8 @@ public class RealCrashEffect : FakeCrashEffect
 {
     public override string StatusText => "";
 
+    public override double Weight => HardmodeWeight(0, base.Weight);
+
     public override bool ShouldIncludeInPool(ICollection<Effect> pool)
     {
         // only include this effect if this is the voting pool,

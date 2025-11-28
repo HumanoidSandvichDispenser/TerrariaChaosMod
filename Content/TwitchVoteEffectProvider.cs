@@ -206,28 +206,51 @@ public class TwitchVoteEffectProvider : IEffectProvider
         }
     }
 
+    private static IEnumerable<Effects.Effect> PickK(IReadOnlySet<Effects.Effect> source, int k)
+    {
+        // using weighted reservoir sampling to pick k random effects
+
+        var rand = Terraria.Main.rand;
+        var heap = new PriorityQueue<(double key, Effects.Effect effect), double>();
+
+        foreach (var effect in source)
+        {
+            double weight = effect.Weight;
+
+            if (weight <= 0)
+            {
+                continue;
+            }
+
+            double u = rand.NextDouble();
+            // key is normally computed as u^(1/weight) = -ln(u) / weight, but
+            // we do want to end up with the smallest keys since larger weights
+            // should have higher chance of being selected, and as weight -> inf,
+            // key -> 0, so we can just negate the value = ln(u) / weight
+            double key = System.Math.Log2(u) / weight;
+
+            if (heap.Count < k)
+            {
+                heap.Enqueue((key, effect), key);
+            }
+            else if (key > heap.Peek().key)
+            {
+                heap.Dequeue();
+                heap.Enqueue((key, effect), key);
+            }
+        }
+
+        while (heap.Count > 0)
+        {
+            yield return heap.Dequeue().effect;
+        }
+    }
+
     private void SetupVotingPool()
     {
         _randomPool.Clear();
         _randomPool.UnionWith(_effectsList);
-        _votingPool = new Effects.Effect[_votes.Length - 1];
-
-        var rand = Terraria.Main.rand;
-
-        const int TAKE_N = 3;
-
-        while (_votingPool.Count(e => e is not null) < TAKE_N)
-        {
-            // pick a random effect from the effect list
-            var effect = _effectsList.ElementAt(rand.Next(0, _effectsList.Count));
-
-            // only add the effect if it is not already in the voting pool,
-            // and it satisfies its condition for inclusion
-            if (!_votingPool.Contains(effect) && effect.ShouldIncludeInPool(_votingPool))
-            {
-                _votingPool[_votingPool.Count(e => e is not null)] = effect;
-            }
-        }
+        _votingPool = PickK(_effectsList, 3).ToArray();
 
         // remove all effects in the voting pool from the random pool
         foreach (var effect in _votingPool)
@@ -327,17 +350,11 @@ public class TwitchVoteEffectProvider : IEffectProvider
     {
         var random = new System.Random();
 
-        Effects.Effect pickRandomizer()
-        {
-            int index = random.Next(0, _randomPool.Count);
-            return _randomPool.ElementAt(index);
-        }
-
         int totalVotes = _votes.Sum();
 
         if (totalVotes == 0)
         {
-            return pickRandomizer();
+            return PickK(_randomPool, 1).First();
         }
 
         int roll = random.Next(0, totalVotes);
@@ -355,7 +372,7 @@ public class TwitchVoteEffectProvider : IEffectProvider
 
         if (i == 3)
         {
-            return pickRandomizer();
+            return PickK(_randomPool, 1).First();
         }
 
         return _votingPool[i];

@@ -6,9 +6,17 @@ namespace TerrariaChaosMod.Content.Effects.NPCEffects;
 
 public class RegenerateBossHealthEffect : Effect
 {
-    public override bool ShouldIncludeInPool(ICollection<Effect> pool)
+    public override double Weight
     {
-        return Main.CurrentFrameFlags.AnyActiveBossNPC;
+        get
+        {
+            // increase weight if any boss NPC is active
+            if (Main.CurrentFrameFlags.AnyActiveBossNPC)
+            {
+                return 16.0 * base.Weight;
+            }
+            return base.Weight;
+        }
     }
 
     public override void ApplyEffect(Player player)

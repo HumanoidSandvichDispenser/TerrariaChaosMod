@@ -7,6 +7,8 @@ public class OmegaComboMetaEffect : Effect
 {
     public override int Duration => Seconds(10);
 
+    public override double Weight => HardmodeWeight(base.Weight / 8, base.Weight);
+
     public override void ApplyEffect(Player player)
     {
         var system = ModContent.GetInstance<ChaosEffectsSystem>();

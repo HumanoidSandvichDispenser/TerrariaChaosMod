@@ -12,6 +12,9 @@ public class FakeCrashEffect : Effect
 
     public override string StatusText => _statusText;
 
+    // higher in pre-hardmode since real crash is disabled in pre-hardmode
+    public override double Weight => HardmodeWeight(2, 1);
+
     protected void SetResponding(bool isResponding)
     {
         const string SUFFIX = " (Not Responding)";
